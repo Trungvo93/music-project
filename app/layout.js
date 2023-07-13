@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
               <nav>
                 <HeadTop />
               </nav>
-              {children}
+              <div>{children}</div>
             </main>
           </div>
           <footer className={`sectionFooter`}>
