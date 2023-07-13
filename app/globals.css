@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  background-color: #e8e5e5;
+  background-image: url(hinh-o-vuong.png);
+  overflow-y: hidden;
+  color: black;
+}
+.sectionMain {
+  height: 100vh;
+}
+.sectionFooter {
+  background-color: #1abc9c;
+  z-index: 99;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  display: none;
+}
+
+.leftSide {
+  background-color: #1abc9c;
+  background-image: url(hinh-o-vuong.png);
+}
+
+.leftSide::-webkit-scrollbar {
+  width: 5px;
+  background-image: url(hinh-o-vuong.png);
+  background-color: #1abc9c;
+}
+.leftSide::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  -webkit-box-shadow: 0 0 3px rgb(0, 0, 0);
+  background-color: #ee7c39;
+}
+
+main {
+  overflow-y: auto;
+}
+main::-webkit-scrollbar {
+  width: 5px;
+  background-image: url(hinh-o-vuong.png);
+  background-color: gray;
+}
+main::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  -webkit-box-shadow: 0 0 3px rgb(0, 0, 0);
+  background-color: #d5cd6e;
+}
+.topBar {
+  background-color: #1abc9c;
+}
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: max-content;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 120%;
+  left: -50%;
+  margin-left: -40%;
+  padding: 5px 10px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

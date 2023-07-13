@@ -1,0 +1,14 @@
+.scrollBar {
+  overflow-y: auto;
+}
+.scrollBar::-webkit-scrollbar {
+  border-radius: 15px;
+  width: 5px;
+  background-image: url(/hinh-o-vuong.png);
+  background-color: gray;
+}
+.scrollBar::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  -webkit-box-shadow: 0 0 3px rgb(0, 0, 0);
+  background-color: #ee7c39;
+}

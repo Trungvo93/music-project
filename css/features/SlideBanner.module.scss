@@ -1,0 +1,51 @@
+.slick-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+#itemTrending0:hover #itemIcon0,
+#itemTrending1:hover #itemIcon1,
+#itemTrending2:hover #itemIcon2,
+#itemTrending3:hover #itemIcon3,
+#itemTrending4:hover #itemIcon4,
+#itemTrending5:hover #itemIcon5 {
+  display: flex;
+}
+/* #itemTrending0:hover img,
+#itemTrending1:hover img,
+#itemTrending2:hover img,
+#itemTrending3:hover img,
+#itemTrending4:hover img,
+#itemTrending5:hover img {
+  transform: scale(1.2);
+} */
+#itemTrending0:hover .main__overlay,
+#itemTrending1:hover .main__overlay,
+#itemTrending2:hover .main__overlay,
+#itemTrending3:hover .main__overlay,
+#itemTrending4:hover .main__overlay,
+#itemTrending5:hover .main__overlay {
+  z-index: 1;
+}
+
+#itemIcon0,
+#itemIcon1,
+#itemIcon2,
+#itemIcon3,
+#itemIcon4,
+#itemIcon5 {
+  z-index: 2;
+}
+.main__overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
