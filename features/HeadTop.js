@@ -10,17 +10,9 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
-import axios from "axios";
 import SearchBarComp from "@/components/SearchBarComp";
 import Login from "@/components/Login";
-const Header = () => {
+const HeadTop = () => {
   const [userLogged, setUserLogged] = useState();
   const [openDialog, setOpenDialog] = useState(false);
   const { dispatch } = useContext(AppContext);
@@ -231,4 +223,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeadTop;

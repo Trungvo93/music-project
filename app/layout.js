@@ -7,7 +7,7 @@ import MenuMusic from "@/features/MenuMusic";
 import Link from "next/link";
 import MenuPlaylist from "@/features/MenuPlaylist";
 import AudioTask from "@/features/AudioTask";
-import Header from "@/features/Header";
+import HeadTop from "@/features/HeadTop";
 const inter = Work_Sans({ subsets: ["latin"] });
 
 export const metadata = {
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
             <main className='col-span-10 '>
               {/* Header */}
               <nav>
-                <Header />
+                <HeadTop />
               </nav>
               {children}
             </main>
