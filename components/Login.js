@@ -18,17 +18,16 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import InputAdornment from "@mui/material/InputAdornment";
+
 import axios from "axios";
 import LoginComp from "./LoginComp";
 import LogoutComp from "./LogoutComp";
+import { urlProfile } from "../api/allApi";
 const Login = () => {
   const { state, dispatch } = useContext(AppContext);
   const [openDialogLogout, setopenDialogLogout] = useState(false);
   const [openDialogLogin, setopenDialogLogin] = useState(false);
   const [switchRegister, setSwitchRegister] = useState(false);
-
   //Switch Component Register and Login
   const handleSwitchRegister = () => {
     setSwitchRegister(!switchRegister);
@@ -36,15 +35,17 @@ const Login = () => {
   //Check logged
   useEffect(() => {
     const checkLogged = localStorage.getItem("accessKey");
-    const loggedUser = localStorage.getItem("infoAccount");
+    const fetchProfile = async (token) => {
+      const res = await axios.get(urlProfile, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch({ type: "ADDUSERLOGIN", payload: res.data.data });
+    };
     if (checkLogged) {
       dispatch("SWITCHTOLOGIN");
+      fetchProfile(checkLogged);
     } else {
       dispatch("SWITCHTOLOGOUT");
-    }
-
-    if (loggedUser) {
-      dispatch({ type: "ADDUSERLOGIN", payload: JSON.parse(loggedUser) });
     }
   }, []);
 
@@ -90,8 +91,6 @@ const Login = () => {
 
   useEffect(() => {
     if (state.isLogin) {
-      console.log(state.isLogin);
-
       handleCloseDialogLogin();
     }
   }, [state.isLogin]);
@@ -113,24 +112,32 @@ const Login = () => {
         <Tooltip
           arrow
           title={
-            <div
-              className='flex items-center gap-2 '
-              onClick={handleClickopenDialogLogout}>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-4 h-4 cursor-pointer'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75'
-                />
-              </svg>
+            <div className='flex flex-col gap-4 items-center p-3'>
+              <div className='text-center'>
+                <p>{state.userLogged.user_name}</p>
+              </div>
+              <div className='text-center'>
+                <p>{state.userLogged.email}</p>
+              </div>
+              <div
+                className='flex items-center gap-2 hover:text-yellow-400 '
+                onClick={handleClickopenDialogLogout}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-4 h-4 cursor-pointer'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75'
+                  />
+                </svg>
 
-              <button>Đăng xuất</button>
+                <button>Đăng xuất</button>
+              </div>
             </div>
           }>
           <Image

@@ -22,9 +22,7 @@ const LoginComp = () => {
         email: userLogin.email,
         password: userLogin.password,
       });
-      const tmp = JSON.stringify(res.data.data).toString();
       localStorage.setItem("accessKey", res.data.accessToken);
-      localStorage.setItem("infoAccount", tmp);
       dispatch({ type: "ADDUSERLOGIN", payload: res.data.data });
       dispatch({ type: "SWITCHTOLOGIN" });
     } catch (error) {

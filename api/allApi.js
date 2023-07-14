@@ -18,6 +18,8 @@ export const urlSearch = `${URL}/search`;
 
 //Account
 export const urlLogin = `${URL}/account/login`;
+export const urlProfile = `${URL}/account/profile`;
+export const urlRegister = `${URL}/account/register`;
 // const token = state.userLogin.accessToken;
 // const res = await axios.get(
 //   `https://api-kaito-music.vercel.app/api/search`,
