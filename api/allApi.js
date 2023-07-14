@@ -15,6 +15,9 @@ export const urlBichPhuong = `${URL}/search?query=bich-phuong`;
 export const urlTangPhuc = `${URL}/search?query=tang-phuc`;
 export const urlTopViews = `${URL}/music/top-views?_limit=249`;
 export const urlSearch = `${URL}/search`;
+
+//Account
+export const urlLogin = `${URL}/account/login`;
 // const token = state.userLogin.accessToken;
 // const res = await axios.get(
 //   `https://api-kaito-music.vercel.app/api/search`,

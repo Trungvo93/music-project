@@ -50,17 +50,17 @@ const HeadTop = () => {
   };
 
   //Get infor account google logined
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserLogged(user);
-        dispatch({ type: "ADDUSERLOGIN", payload: user });
-      } else {
-        console.log("not logged");
-        dispatch({ type: "REMOVEUSERLOGIN" });
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       setUserLogged(user);
+  //       dispatch({ type: "ADDUSERLOGIN", payload: user });
+  //     } else {
+  //       console.log("not logged");
+  //       dispatch({ type: "REMOVEUSERLOGIN" });
+  //     }
+  //   });
+  // }, []);
 
   // Get the Window’s Width on Resize
   const [widthHeader, setWithHeader] = useState();

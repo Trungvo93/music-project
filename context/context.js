@@ -4,7 +4,8 @@ import { createContext, Dispatch, useReducer } from "react";
 const initialState = {
   playList: [],
   firstPlay: false,
-  userLogin: null,
+  userLogged: null,
+  isLogin: false,
 };
 
 const reducer = (state, action) => {
@@ -17,9 +18,13 @@ const reducer = (state, action) => {
     case "FIRSTPLAY":
       return { ...state, firstPlay: true };
     case "ADDUSERLOGIN":
-      return { ...state, userLogin: { ...payload } };
+      return { ...state, userLogged: { ...payload } };
     case "REMOVEUSERLOGIN":
-      return { ...state, userLogin: null };
+      return { ...state, userLogged: null };
+    case "SWITCHTOLOGIN":
+      return { ...state, isLogin: true };
+    case "SWITCHTOLOGOUT":
+      return { ...state, isLogin: false };
     default:
       return state;
   }
