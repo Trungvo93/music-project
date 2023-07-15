@@ -20,6 +20,12 @@ export const urlSearch = `${URL}/search`;
 export const urlLogin = `${URL}/account/login`;
 export const urlProfile = `${URL}/account/profile`;
 export const urlRegister = `${URL}/account/register`;
+
+//User Play List
+export const urlCreatePlaylist = `${URL}/list-music/create`;
+export const urlGetAllPlaylist = `${URL}/list-music/get-list`;
+export const urlGetPlaylist = `${URL}/list-music/get-by-id`;
+
 // const token = state.userLogin.accessToken;
 // const res = await axios.get(
 //   `https://api-kaito-music.vercel.app/api/search`,

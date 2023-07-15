@@ -12,6 +12,8 @@ import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import LoginComp from "@/components/LoginComp";
 import { AppContext } from "@/context/context";
+import SkeletonUserProfile from "@/components/SkeletonUserProfile";
+import UserProfileComp from "@/components/UserProfileComp";
 const UserProfile = () => {
   const { state, dispatch } = useContext(AppContext);
   const [openRemindLogin, setOpenRemindLogin] = useState(false);
@@ -27,7 +29,7 @@ const UserProfile = () => {
     if (checkLogged === false) {
       handleClickOpenRemindLogin();
     }
-  }, []);
+  }, [state.userLogged]);
   useEffect(() => {
     if (state.isLogin) {
       handleClickCloseRemindLogin();
@@ -35,8 +37,9 @@ const UserProfile = () => {
   }, [state.isLogin]);
   return (
     <div>
-      {" "}
-      <span className='text-orange-500'>Cá nhân</span>
+      <div>
+        {state.userLogged ? <UserProfileComp /> : <SkeletonUserProfile />}
+      </div>
       <Dialog
         open={openRemindLogin}
         aria-labelledby='alert-dialog-title'

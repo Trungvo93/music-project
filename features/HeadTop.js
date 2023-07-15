@@ -116,7 +116,6 @@ const HeadTop = () => {
           className={`flex p-5 topBar justify-between content-center  ${
             windowWidth ? `fixed left-[${positionLeft}px]` : ""
           }   z-50 `}
-          // style={{ width: widthHeader + "px" }}
           style={
             windowWidth ? { width: widthHeader + "px" } : { width: "100%" }
           }>
