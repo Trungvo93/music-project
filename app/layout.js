@@ -27,14 +27,16 @@ export default function RootLayout({ children }) {
             <nav className='col-span-2 leftSide  pt-3 overflow-y-scroll	'>
               {/* Logo web */}
               <div className='flex justify-center md:justify-normal md:m-2 md:ms-5'>
-                <Image
-                  src='/favicon.ico'
-                  priority={true}
-                  width={40}
-                  height={40}
-                  alt='Logo Music'
-                  className=''
-                />
+                <Link href={"/"}>
+                  <Image
+                    src='/favicon.ico'
+                    priority={true}
+                    width={40}
+                    height={40}
+                    alt='Logo Music'
+                    className=''
+                  />
+                </Link>
               </div>
               <MenuInfor />
               <hr className='m-3 border-gray-600	 rounded' />
