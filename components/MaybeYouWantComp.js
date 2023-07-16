@@ -141,6 +141,76 @@ const MaybeYouWantComp = ({ playlist, srcImage, altImage }) => {
               />
             </svg>
           </Tooltip>
+
+          {/* <div className='dropdown dropdown-end  '>
+            <label tabIndex={0} className=''>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='w-6 h-6 cursor-pointer'>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
+                />
+              </svg>
+            </label>
+            <div
+              tabIndex={0}
+              className='dropdown-content z-[1] mt-2 menu p-2 shadow bg-slate-500 rounded-box overflow-visible '>
+              <div className='flex items-center gap-2 cursor-pointer hover:text-yellow-200 m-2'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3'
+                  />
+                </svg>
+                <button className='whitespace-nowrap'>Tải xuống</button>
+              </div>
+
+              <div className='flex items-center gap-2 cursor-pointer hover:text-yellow-200 m-2'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6'>
+                  <path
+                    strokeLinecap='round'
+                    d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
+                  />
+                </svg>
+                <button className='whitespace-nowrap'>Xem MV</button>
+              </div>
+              <div className='flex  items-center gap-2 cursor-pointer hover:text-yellow-200 m-2'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
+                  />
+                </svg>
+                <button className='whitespace-nowrap'>Thêm vào Playlist</button>
+              </div>
+            </div>
+          </div> */}
         </div>
       </div>
       <p className='capitalize line-clamp-1 mt-3 text-xs text-gray-500'>

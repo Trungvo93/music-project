@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState, useEffect, useContext } from "react";
-import { Slider, SwipeableDrawer, Divider } from "@mui/material";
+import { Slider, Popover, SwipeableDrawer, Divider } from "@mui/material";
 import { AppContext } from "../context/context";
 import styles from "../css/features/AudioTask.module.scss";
 import Image from "next/image";
@@ -18,6 +18,17 @@ const AudioTask = () => {
   const [position, setPosition] = useState(0);
   const [sliderDuration, setSliderDuration] = useState(0);
   const [sliderVolume, setSliderVolume] = useState(30);
+  const [anchorElVolume, setAnchorElVolume] = useState(null);
+
+  const handleClickVolume = (event) => {
+    setAnchorElVolume(event.currentTarget);
+  };
+
+  const handleCloseVolume = () => {
+    setAnchorElVolume(null);
+  };
+  const open = Boolean(anchorElVolume);
+  const id = open ? "simple-popover" : undefined;
   //Active background item in playlist
   const [activeTrack, setActiveTrack] = useState();
 
@@ -265,7 +276,7 @@ const AudioTask = () => {
               width='20'
               height='20'
               fill='currentColor'
-              className={`bi bi-shuffle cursor-pointer  hover:text-white hover:scale-125 duration-300 ${
+              className={`bi bi-shuffle cursor-pointer w-5 h-5  hover:text-white hover:scale-125 duration-300 ${
                 isShuffle ? "text-white" : "text-black"
               }`}
               viewBox='0 0 16 16'>
@@ -299,7 +310,7 @@ const AudioTask = () => {
                   width='50'
                   height='50'
                   fill='currentColor'
-                  className={`bi bi-play-circle p-1 cursor-pointer hover:text-white hover:scale-125 duration-300  `}
+                  className={`bi bi-play-circle w-8 h-8 sm:w-12 sm:h-12  p-1 cursor-pointer hover:text-white hover:scale-125 duration-300  `}
                   viewBox='0 0 16 16'>
                   <path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z' />
                   <path d='M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z' />
@@ -312,7 +323,7 @@ const AudioTask = () => {
                   width='50'
                   height='50'
                   fill='currentColor'
-                  className={`bi bi-pause-circle p-1 cursor-pointer hover:text-white hover:scale-125 duration-300   `}
+                  className={`bi bi-pause-circle w-8 h-8 sm:w-12 sm:h-12 p-1 cursor-pointer hover:text-white hover:scale-125 duration-300   `}
                   viewBox='0 0 16 16'>
                   <path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z' />
                   <path d='M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z' />
@@ -402,7 +413,8 @@ const AudioTask = () => {
           </svg>
 
           {/* volume */}
-          <div className='flex flex-nowrap w-1/4 gap-3 items-center relative group'>
+
+          <div>
             {/* Icon Volume */}
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -410,25 +422,52 @@ const AudioTask = () => {
               viewBox='0 0 24 24'
               strokeWidth={1.5}
               stroke='currentColor'
-              className='w-6 h-6 shrink-0'>
+              className='w-6 h-6 shrink-0'
+              aria-describedby={id}
+              variant='contained'
+              onClick={handleClickVolume}>
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
                 d='M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z'
               />
             </svg>
-
-            <Slider
-              aria-label='Volume'
-              max={100}
-              min={0}
-              size='small'
-              value={sliderVolume}
-              onChange={handleVolumeChange}
-              className='w-12 lg:w-[100px]  text-[#D5CD6E]'
-            />
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorElVolume}
+              onClose={handleCloseVolume}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              PaperProps={{
+                style: {
+                  backgroundColor: "transparent",
+                  border: "0",
+                  overflow: "hidden",
+                  boxShadow: "none",
+                },
+              }}>
+              <Slider
+                aria-label='Volume'
+                max={100}
+                min={0}
+                orientation='vertical'
+                value={sliderVolume}
+                onChange={handleVolumeChange}
+                className=''
+                sx={{
+                  height: "100px",
+                  color: "#D5CD6E",
+                }}
+              />
+            </Popover>
           </div>
-
           <Divider
             orientation='vertical'
             flexItem

@@ -127,9 +127,9 @@ const HeadTop = () => {
           </label>
 
           {/* Right element */}
-          <div className='flex justify-between items-center	gap-4'>
+          <div className='flex justify-between items-center gap-2	sm:gap-4 ms-2'>
             <Tooltip title='Nâng cấp VIP' arrow>
-              <div className='p-3 bg-slate-500/30 rounded-full relative cursor-pointer hover:brightness-95	'>
+              <div className='p-2 sm:p-3 bg-slate-500/30 rounded-full relative cursor-pointer hover:brightness-95	'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   width='20'
@@ -143,7 +143,7 @@ const HeadTop = () => {
             </Tooltip>
 
             <Tooltip title='Tải nhạc lên' arrow>
-              <div className='p-3 bg-slate-500/30 rounded-full cursor-pointer	hover:brightness-95'>
+              <div className='p-2 sm:p-3 bg-slate-500/30 rounded-full cursor-pointer	hover:brightness-95'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   width='20'

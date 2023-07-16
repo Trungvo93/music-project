@@ -1,29 +1,46 @@
 "use client";
+import useSWR from "swr";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import {
   urlCreatePlaylist,
   urlGetPlaylist,
   urlGetAllPlaylist,
+  urlSoSad,
 } from "@/api/allApi";
 import { AppContext } from "@/context/context";
 import Link from "next/link";
+const fetchWithToken = (urlGetAllPlaylist, accessToken) => {
+  if (accessToken) {
+    return axios
+      .get(urlGetAllPlaylist, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      .then((res) => res.data.data);
+  }
+};
 const DropPlaylist = () => {
   const { state, dispatch } = useContext(AppContext);
   const [allUserPlaylist, setAllUserPlaylist] = useState();
-  useEffect(() => {
-    const fetchGetAllPlaylist = async (token) => {
-      const res = await axios.get(urlGetAllPlaylist, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setAllUserPlaylist(res.data.data);
-    };
-    if (state.userLogged) {
-      const accessToken = localStorage.getItem("accessKey");
+  const accessToken = localStorage.getItem("accessKey");
+  const { data: dataUserPlaylist, error: errorUserPlaylist } = useSWR(
+    [urlGetAllPlaylist, accessToken],
+    ([url, token]) => fetchWithToken(url, token),
+    { refreshInterval: 1000 }
+  );
+  // useEffect(() => {
+  //   const fetchGetAllPlaylist = async (token) => {
+  //     const res = await axios.get(urlGetAllPlaylist, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     setAllUserPlaylist(res.data.data);
+  //   };
+  //   if (state.userLogged) {
+  //     const accessToken = localStorage.getItem("accessKey");
 
-      fetchGetAllPlaylist(accessToken);
-    }
-  }, [state.userLogged]);
+  //     fetchGetAllPlaylist(accessToken);
+  //   }
+  // }, [state.userLogged,state.isAddUserPlaylist]);
 
   const handleAddPlaylist = (playlist) => {
     const list = playlist.map((item, index) => {
@@ -56,8 +73,8 @@ const DropPlaylist = () => {
   };
   return (
     <div>
-      {allUserPlaylist
-        ? allUserPlaylist.map((item, index) => (
+      {dataUserPlaylist
+        ? dataUserPlaylist.map((item, index) => (
             <div
               key={index}
               className='flex justify-between items-center hover:bg-slate-600/50 hover:text-white p-2 rounded-md'>

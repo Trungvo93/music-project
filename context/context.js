@@ -6,6 +6,7 @@ const initialState = {
   firstPlay: false,
   userLogged: null,
   isLogin: false,
+  isAddUserPlaylist: false,
 };
 
 const reducer = (state, action) => {

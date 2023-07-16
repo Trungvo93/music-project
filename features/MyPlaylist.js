@@ -29,8 +29,8 @@ const MyPlaylist = () => {
     const res = await axios.post(
       urlCreatePlaylist,
       {
-        idMusic: "64ad6ec69a4faf00084a816e",
-        nameList: "Demo playlist",
+        idMusic: "6438cbb5aa9627ecf4936574",
+        nameList: "Test3 playlist",
       },
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
