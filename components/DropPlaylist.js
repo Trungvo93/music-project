@@ -22,12 +22,17 @@ const fetchWithToken = (urlGetAllPlaylist, accessToken) => {
 const DropPlaylist = () => {
   const { state, dispatch } = useContext(AppContext);
   const [allUserPlaylist, setAllUserPlaylist] = useState();
-  const accessToken = localStorage.getItem("accessKey");
+  const [accessToken, setAccessToken] = useState();
   const { data: dataUserPlaylist, error: errorUserPlaylist } = useSWR(
     [urlGetAllPlaylist, accessToken],
     ([url, token]) => fetchWithToken(url, token),
     { refreshInterval: 1000 }
   );
+  useEffect(() => {
+    // Perform localStorage action
+    const item = localStorage.getItem("accessKey");
+    setAccessToken(item);
+  }, []);
   // useEffect(() => {
   //   const fetchGetAllPlaylist = async (token) => {
   //     const res = await axios.get(urlGetAllPlaylist, {
