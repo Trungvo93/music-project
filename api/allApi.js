@@ -25,7 +25,11 @@ export const urlRegister = `${URL}/account/register`;
 export const urlCreatePlaylist = `${URL}/list-music/create`;
 export const urlGetAllPlaylist = `${URL}/list-music/get-list`;
 export const urlGetPlaylist = `${URL}/list-music/get-by-id`;
-
+export const urlDeletePlaylist = `${URL}/list-music/delete-list-music`;
+export const urlChangeNamePlaylist = `${URL}/list-music/update-name-list-music`;
+export const urlAddItemPlaylist = `${URL}/list-music/add-list-music`;
+// payload con additemplaylist:
+// {_id: "64b3e1dcec34f0000899e4d0", _id_music: "64ad6ec69a4faf00084a816e", nameList: "Test3 playlistsss"}
 // const token = state.userLogin.accessToken;
 // const res = await axios.get(
 //   `https://api-kaito-music.vercel.app/api/search`,

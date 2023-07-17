@@ -38,7 +38,7 @@ const MenuPlaylist = () => {
             <span className='hidden md:block'>Playlist</span>
           </Link>
         </div>
-        <div className=' px-5 collapse-content'>
+        <div className='  collapse-content overflow-x-auto'>
           <DropPlaylist />
         </div>
       </div>

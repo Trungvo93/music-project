@@ -148,7 +148,7 @@ const Login = () => {
         //     className='rounded-full cursor-pointer hover:brightness-95	h-10 w-10 object-cover'
         //   />
         // </Tooltip>
-        <div className='dropdown dropdown-end '>
+        <div className='dropdown dropdown-end text-white '>
           <label tabIndex={0} className=''>
             <Image
               src={state.userLogged.image}
@@ -160,7 +160,7 @@ const Login = () => {
           </label>
           <div
             tabIndex={0}
-            className='dropdown-content z-[1] mt-2 menu p-2 shadow bg-base-100 rounded-box '>
+            className='dropdown-content z-[1] mt-2 menu p-2 shadow bg-gray-600 rounded-box '>
             <div className='text-center m-2'>
               <p>{state.userLogged.user_name}</p>
             </div>

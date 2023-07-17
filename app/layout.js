@@ -21,10 +21,13 @@ export default function RootLayout({ children }) {
       <body className={inter.className} suppressHydrationWarning={true}>
         <AppContextProvider>
           <div
-            className={`grid grid-cols-12 
-              sectionMain
-           `}>
-            <nav className='col-span-2 leftSide  pt-3 overflow-y-scroll	'>
+            //   className={`grid grid-cols-12
+            //     sectionMain
+            //  `}
+            className={`flex sectionMain `}>
+            <nav
+              // className='col-span-2 leftSide  pt-3 overflow-y-scroll	'
+              className='leftSide  pt-3 overflow-y-scroll shrink-0  basis-64 xl:basis-72 '>
               {/* Logo web */}
               <div className='flex justify-center md:justify-normal md:m-2 md:ms-5'>
                 <Link href={"/"}>
@@ -70,7 +73,9 @@ export default function RootLayout({ children }) {
               <hr className='m-3 border-gray-600	 rounded' />
               <MenuPlaylist />
             </nav>
-            <main className='col-span-10 '>
+            <main
+            // className='col-span-10 '
+            >
               {/* Header */}
               <nav>
                 <HeadTop />
