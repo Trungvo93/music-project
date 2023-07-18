@@ -1,11 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useContext } from "react";
-import { Tooltip } from "@mui/material";
+import { useContext, useState } from "react";
+import {
+  Tooltip,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import styles from "../css/components/ArtistTrending.module.scss";
-
 import { AppContext } from "../context/context";
+import AddPersonalPlaylist from "./AddPersonalPlaylist";
 const ArtistTrendingComp = ({
   playlist,
   srcImage,
@@ -13,6 +22,15 @@ const ArtistTrendingComp = ({
   title1,
   title2,
 }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const { state, dispatch } = useContext(AppContext);
   const handleAddPlaylist = () => {
     if (playlist) {
@@ -32,6 +50,7 @@ const ArtistTrendingComp = ({
       dispatch({ type: "FIRSTPLAY" });
     }
   };
+
   return (
     <div>
       <div className='  relative  overflow-hidden cursor-pointer	rounded-lg drop-shadow-md group'>
@@ -117,7 +136,11 @@ const ArtistTrendingComp = ({
                   </svg>
                   <button>Xem MV</button>
                 </div>
-                <div className='flex items-center gap-2 cursor-pointer hover:text-yellow-200'>
+                <div
+                  className='flex items-center gap-2 cursor-pointer hover:text-yellow-200'
+                  onClick={() => {
+                    handleClickOpen();
+                  }}>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -155,6 +178,38 @@ const ArtistTrendingComp = ({
       <p className='capitalize line-clamp-1 mt-3 text-xs text-gray-500'>
         {title2}
       </p>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'>
+        <DialogTitle className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
+          <div className='flex justify-between items-center'>
+            <p>Thêm vào Playlist</p>
+            <IconButton>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='w-6 h-6'
+                onClick={() => {
+                  handleClose();
+                }}>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M6 18L18 6M6 6l12 12'
+                />
+              </svg>
+            </IconButton>
+          </div>
+        </DialogTitle>
+        <DialogContent className='mt-3'>
+          <AddPersonalPlaylist item={playlist} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

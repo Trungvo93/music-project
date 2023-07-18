@@ -111,7 +111,7 @@ const HeadTop = () => {
 
   return (
     <div className={`w-full ${windowWidth ? "pb-[80px]" : ""}`}>
-      <div className={`relative  `} id='searchBar'>
+      <div className={`lg:relative  `} id='searchBar'>
         <div
           className={`flex p-5 topBar justify-between content-center  ${
             windowWidth ? `fixed left-[${positionLeft}px]` : ""

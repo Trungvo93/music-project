@@ -7,6 +7,7 @@ const initialState = {
   userLogged: null,
   isLogin: false,
   isAddUserPlaylist: false,
+  personPlaylist: [],
 };
 
 const reducer = (state, action) => {
@@ -26,6 +27,8 @@ const reducer = (state, action) => {
       return { ...state, isLogin: true };
     case "SWITCHTOLOGOUT":
       return { ...state, isLogin: false };
+    case "UPDATEPERSONPLAYLIST":
+      return { ...state, personPlaylist: payload };
     default:
       return state;
   }
