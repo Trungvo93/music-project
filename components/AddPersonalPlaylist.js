@@ -10,8 +10,14 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { urlDeletePlaylist } from "@/api/allApi";
+import {
+  urlDeletePlaylist,
+  urlGetPlaylist,
+  urlCreatePlaylist,
+  urlAddItemPlaylist,
+} from "@/api/allApi";
 import axios from "axios";
+import { async } from "@firebase/util";
 const AddPersonalPlaylist = ({ item }) => {
   const { state, dispatch } = useContext(AppContext);
   //Config dialog deleted
@@ -35,32 +41,166 @@ const AddPersonalPlaylist = ({ item }) => {
     });
     handleCloseDeleteDialog();
   };
+
+  // Create New Personal Playlist
+  const [newNamelist, setNewNamelist] = useState("");
+  const [openCreate, setOpenCreate] = useState(false);
+  const handleChangeNamelist = (e) => {
+    setNewNamelist(e.target.value);
+  };
+  const handleClickOpenCreateDialog = () => {
+    setOpenCreate(true);
+  };
+
+  const handleCloseCreateDialog = () => {
+    setOpenCreate(false);
+    setNewNamelist("");
+  };
+  const handleCreatePlaylist = async (item) => {
+    const accessToken = localStorage.getItem("accessKey");
+    if (Array.isArray(item)) {
+      const firstItem = item[0];
+      const otherItems = item.slice(1, item.length);
+      const firstRes = await axios.post(
+        urlCreatePlaylist,
+        {
+          idMusic: firstItem._id,
+          nameList: newNamelist,
+        },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      const resPromise = await Promise.all(
+        otherItems.map(async (e) => {
+          const result = await axios.put(
+            urlAddItemPlaylist,
+            {
+              _id: firstRes.data.data._id,
+              _id_music: e._id,
+            },
+            { headers: { Authorization: `Bearer ${accessToken}` } }
+          );
+          return result;
+        })
+      );
+    } else {
+      const res = await axios.post(
+        urlCreatePlaylist,
+        {
+          idMusic: item._id,
+          nameList: newNamelist,
+        },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+    }
+    handleCloseCreateDialog();
+  };
+
+  const handleAddToPlaylist = async (e) => {
+    const accessToken = localStorage.getItem("accessKey");
+    if (Array.isArray(item)) {
+      const resPromise = await Promise.all(
+        item.map(async (element) => {
+          const result = await axios.put(
+            urlAddItemPlaylist,
+            {
+              _id: e._id,
+              _id_music: element._id,
+            },
+            { headers: { Authorization: `Bearer ${accessToken}` } }
+          );
+          return result;
+        })
+      );
+    } else {
+      const res = await axios.put(
+        urlAddItemPlaylist,
+        {
+          _id: e._id,
+          _id_music: element._id,
+        },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+    }
+  };
   return (
     <div>
+      <button
+        className='btn btn-warning  my-2 text-xs'
+        onClick={() => {
+          handleClickOpenCreateDialog();
+        }}>
+        Tạo mới Playlist
+      </button>
+      {/* Create dialog */}
+      <Dialog
+        open={openCreate}
+        onClose={handleCloseCreateDialog}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'>
+        <DialogTitle
+          id='alert-dialog-title'
+          className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
+          Tên playlist mới
+        </DialogTitle>
+        <DialogContent className='mt-3'>
+          <input
+            type='text'
+            required
+            placeholder='Nhập tên playlist'
+            className='input input-bordered input-info w-full mt-3'
+            value={newNamelist}
+            onChange={handleChangeNamelist}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCreateDialog}>Hủy</Button>
+          <Button
+            onClick={() => handleCreatePlaylist(item)}
+            autoFocus
+            variant='contained'
+            color='success'
+            type='submit'>
+            Tạo mới
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div>
-        {state.personPlaylist.map((item, index) => (
+        {state.personPlaylist.map((e, index) => (
           <div
             key={index}
             className='flex justify-between items-center hover:bg-slate-600/50 hover:text-white p-2 rounded-md'>
             <Link href='#' className='hover:text-yellow-400'>
-              {item.name_list}
+              {e.name_list}
             </Link>
-            <div className='flex flex-nowrap gap-2'>
-              {/* Action playlist */}
+            <div className='flex flex-nowrap gap-4'>
+              {/* Add to playlist */}
+              <svg
+                onClick={() => handleAddToPlaylist(e)}
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='w-6 h-6 cursor-pointer hover:text-yellow-400 shrink-0'>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M12 6v12m6-6H6'
+                />
+              </svg>
+
+              {/* Edit name playlist */}
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='currentColor'
-                className='w-5 h-5 hover:text-yellow-400 cursor-pointer shrink-0'
-                onClick={() => {
-                  handlePlay(item._id);
-                }}>
+                className='w-5 h-5 cursor-pointer hover:text-yellow-400 shrink-0'>
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
-                  d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
+                  d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
                 />
               </svg>
 
@@ -69,7 +209,7 @@ const AddPersonalPlaylist = ({ item }) => {
               <div>
                 <button
                   onClick={() => {
-                    handleClickOpenDeleteDialog(item);
+                    handleClickOpenDeleteDialog(e);
                   }}>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -85,6 +225,8 @@ const AddPersonalPlaylist = ({ item }) => {
                     />
                   </svg>
                 </button>
+
+                {/* Delete dialog */}
                 <Dialog
                   open={openDeleteDialog}
                   onClose={handleCloseDeleteDialog}

@@ -139,7 +139,9 @@ const ArtistTrendingComp = ({
                 <div
                   className='flex items-center gap-2 cursor-pointer hover:text-yellow-200'
                   onClick={() => {
-                    handleClickOpen();
+                    if (state.personPlaylist) {
+                      handleClickOpen();
+                    }
                   }}>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -186,17 +188,17 @@ const ArtistTrendingComp = ({
         <DialogTitle className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
           <div className='flex justify-between items-center'>
             <p>Thêm vào Playlist</p>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                handleClose();
+              }}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='currentColor'
-                className='w-6 h-6'
-                onClick={() => {
-                  handleClose();
-                }}>
+                className='w-6 h-6'>
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
