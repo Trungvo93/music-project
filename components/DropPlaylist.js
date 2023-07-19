@@ -33,6 +33,7 @@ const DropPlaylist = () => {
   //Config dialog deleted
   const [itemDelete, setItemDelete] = useState();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [isFetchingDeletelist, setIsFetchingDeletelist] = useState(false);
 
   const handleClickOpenDeleteDialog = (item) => {
     setOpenDeleteDialog(true);
@@ -105,10 +106,12 @@ const DropPlaylist = () => {
   };
 
   const handleDeleteList = async (idPlaylist) => {
+    setIsFetchingDeletelist(true);
     const accessToken = localStorage.getItem("accessKey");
     const res = await axios.delete(`${urlDeletePlaylist}?_id=${idPlaylist}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
+    setIsFetchingDeletelist(false);
     handleCloseDeleteDialog();
   };
   return (
@@ -122,7 +125,7 @@ const DropPlaylist = () => {
                 {item.name_list}
               </Link>
               <div className='flex flex-nowrap gap-2'>
-                {/* Action playlist */}
+                {/* Action play */}
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -191,6 +194,7 @@ const DropPlaylist = () => {
                   </form>
                 </dialog> */}
 
+                {/* Delete playlist */}
                 <div>
                   <button
                     onClick={() => {
@@ -228,6 +232,11 @@ const DropPlaylist = () => {
                         color='error'
                         onClick={() => handleDeleteList(itemDelete._id)}
                         autoFocus>
+                        {isFetchingDeletelist ? (
+                          <span className='loading loading-spinner loading-xs  mr-3'></span>
+                        ) : (
+                          ""
+                        )}
                         Có
                       </Button>
                     </DialogActions>

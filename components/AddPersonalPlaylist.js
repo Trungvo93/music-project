@@ -15,18 +15,20 @@ import {
   urlGetPlaylist,
   urlCreatePlaylist,
   urlAddItemPlaylist,
+  urlChangeNamePlaylist,
 } from "@/api/allApi";
 import axios from "axios";
 import { async } from "@firebase/util";
-const AddPersonalPlaylist = ({ item }) => {
+const AddPersonalPlaylist = ({ listMusic }) => {
   const { state, dispatch } = useContext(AppContext);
   //Config dialog deleted
   const [itemDelete, setItemDelete] = useState();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [isFetchingDeletelist, setIsFetchingDeletelist] = useState(false);
 
-  const handleClickOpenDeleteDialog = (item) => {
+  const handleClickOpenDeleteDialog = (itemPersonPlaylist) => {
     setOpenDeleteDialog(true);
-    setItemDelete(item);
+    setItemDelete(itemPersonPlaylist);
   };
 
   const handleCloseDeleteDialog = () => {
@@ -35,15 +37,18 @@ const AddPersonalPlaylist = ({ item }) => {
   };
 
   const handleDeleteList = async (idPlaylist) => {
+    setIsFetchingDeletelist(true);
     const accessToken = localStorage.getItem("accessKey");
     const res = await axios.delete(`${urlDeletePlaylist}?_id=${idPlaylist}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
+    setIsFetchingDeletelist(false);
     handleCloseDeleteDialog();
   };
 
   // Create New Personal Playlist
   const [newNamelist, setNewNamelist] = useState("");
+  const [isFetchingNewList, setIsFetchingNewList] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const handleChangeNamelist = (e) => {
     setNewNamelist(e.target.value);
@@ -54,56 +59,71 @@ const AddPersonalPlaylist = ({ item }) => {
 
   const handleCloseCreateDialog = () => {
     setOpenCreate(false);
-    setNewNamelist("");
   };
-  const handleCreatePlaylist = async (item) => {
-    const accessToken = localStorage.getItem("accessKey");
-    if (Array.isArray(item)) {
-      const firstItem = item[0];
-      const otherItems = item.slice(1, item.length);
-      const firstRes = await axios.post(
-        urlCreatePlaylist,
-        {
-          idMusic: firstItem._id,
-          nameList: newNamelist,
-        },
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
-      const resPromise = await Promise.all(
-        otherItems.map(async (e) => {
-          const result = await axios.put(
-            urlAddItemPlaylist,
-            {
-              _id: firstRes.data.data._id,
-              _id_music: e._id,
-            },
-            { headers: { Authorization: `Bearer ${accessToken}` } }
-          );
-          return result;
-        })
-      );
-    } else {
-      const res = await axios.post(
-        urlCreatePlaylist,
-        {
-          idMusic: item._id,
-          nameList: newNamelist,
-        },
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
+  useEffect(() => {
+    if (openCreate !== false) {
+      setNewNamelist("");
     }
-    handleCloseCreateDialog();
+  }, [openCreate]);
+  const handleCreatePlaylist = async (listMusic) => {
+    if (newNamelist) {
+      setIsFetchingNewList(true);
+      const accessToken = localStorage.getItem("accessKey");
+      if (Array.isArray(listMusic)) {
+        const firstItem = listMusic[0];
+        const otherItems = listMusic.slice(1, listMusic.length);
+        const firstRes = await axios.post(
+          urlCreatePlaylist,
+          {
+            idMusic: firstItem._id,
+            nameList: newNamelist,
+          },
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+        const resPromise = await Promise.all(
+          otherItems.map(async (e) => {
+            const result = await axios.put(
+              urlAddItemPlaylist,
+              {
+                _id: firstRes.data.data._id,
+                _id_music: e._id,
+              },
+              { headers: { Authorization: `Bearer ${accessToken}` } }
+            );
+            return result;
+          })
+        );
+      } else {
+        const res = await axios.post(
+          urlCreatePlaylist,
+          {
+            idMusic: listMusic._id,
+            nameList: newNamelist,
+          },
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+      }
+      setIsFetchingNewList(false);
+      handleCloseCreateDialog();
+    }
   };
 
-  const handleAddToPlaylist = async (e) => {
+  const handleAddToPlaylist = async (itemPersonPlaylist) => {
+    document.getElementById(
+      `successAddlist${itemPersonPlaylist._id}`
+    ).style.display = "none";
+    document.getElementById(
+      `fetchingAddlist${itemPersonPlaylist._id}`
+    ).style.display = "block";
+
     const accessToken = localStorage.getItem("accessKey");
-    if (Array.isArray(item)) {
+    if (Array.isArray(listMusic)) {
       const resPromise = await Promise.all(
-        item.map(async (element) => {
+        listMusic.map(async (element) => {
           const result = await axios.put(
             urlAddItemPlaylist,
             {
-              _id: e._id,
+              _id: itemPersonPlaylist._id,
               _id_music: element._id,
             },
             { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -115,15 +135,59 @@ const AddPersonalPlaylist = ({ item }) => {
       const res = await axios.put(
         urlAddItemPlaylist,
         {
-          _id: e._id,
-          _id_music: element._id,
+          _id: itemPersonPlaylist._id,
+          _id_music: listMusic._id,
         },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
     }
+    document.getElementById(
+      `fetchingAddlist${itemPersonPlaylist._id}`
+    ).style.display = "none";
+    document.getElementById(
+      `successAddlist${itemPersonPlaylist._id}`
+    ).style.display = "block";
+  };
+
+  //Edit name playlist
+  const [newEditName, setNewEditName] = useState("");
+  const [isFetchingEditName, setIsFetchingEditName] = useState(false);
+
+  const [idItemEditName, setIdItemEditName] = useState();
+  const [openEditName, setOpenEditName] = useState(false);
+  useEffect(() => {
+    if (openEditName !== false) {
+      setNewEditName("");
+    }
+  }, [openEditName]);
+  const handleChangeNewEditName = (e) => {
+    setNewEditName(e.target.value);
+  };
+  const handleClickOpenEditName = (itemPersonPlaylist) => {
+    setNewEditName(itemPersonPlaylist.name_list);
+    setIdItemEditName(itemPersonPlaylist._id);
+    setOpenEditName(true);
+  };
+  const handleClickCloseEditName = () => {
+    setOpenEditName(false);
+  };
+  const handleChangeNamePlaylist = async () => {
+    setIsFetchingEditName(true);
+    const accessToken = localStorage.getItem("accessKey");
+    const res = await axios.put(
+      urlChangeNamePlaylist,
+      {
+        nameList: newEditName,
+        _id: idItemEditName,
+      },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    setIsFetchingEditName(false);
+    setIdItemEditName(undefined);
+    handleClickCloseEditName();
   };
   return (
-    <div>
+    <div className=''>
       <button
         className='btn btn-warning  my-2 text-xs'
         onClick={() => {
@@ -133,6 +197,7 @@ const AddPersonalPlaylist = ({ item }) => {
       </button>
       {/* Create dialog */}
       <Dialog
+        disableRestoreFocus
         open={openCreate}
         onClose={handleCloseCreateDialog}
         aria-labelledby='alert-dialog-title'
@@ -144,53 +209,66 @@ const AddPersonalPlaylist = ({ item }) => {
         </DialogTitle>
         <DialogContent className='mt-3'>
           <input
-            type='text'
-            required
+            autoFocus
             placeholder='Nhập tên playlist'
-            className='input input-bordered input-info w-full mt-3'
+            className={`placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm mt-3`}
             value={newNamelist}
             onChange={handleChangeNamelist}
           />
+          <p className='mt-3 text-xs text-red-500'>
+            {newNamelist ? "" : "Tên playlist không để trống"}
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCreateDialog}>Hủy</Button>
-          <Button
-            onClick={() => handleCreatePlaylist(item)}
-            autoFocus
-            variant='contained'
-            color='success'
-            type='submit'>
-            Tạo mới
-          </Button>
+          <button
+            onClick={() => handleCreatePlaylist(listMusic)}
+            className='btn btn-outline btn-accent '>
+            {isFetchingNewList ? (
+              <span className='loading loading-spinner loading-xs mr-3'></span>
+            ) : (
+              ""
+            )}
+
+            <span>Tạo mới</span>
+          </button>
         </DialogActions>
       </Dialog>
-      <div>
-        {state.personPlaylist.map((e, index) => (
+      <div className=''>
+        {state.personPlaylist.map((itemPersonPlaylist, index) => (
           <div
             key={index}
             className='flex justify-between items-center hover:bg-slate-600/50 hover:text-white p-2 rounded-md'>
-            <Link href='#' className='hover:text-yellow-400'>
-              {e.name_list}
+            <Link href='#' className='hover:text-yellow-400 '>
+              {itemPersonPlaylist.name_list}
             </Link>
             <div className='flex flex-nowrap gap-4'>
               {/* Add to playlist */}
-              <svg
-                onClick={() => handleAddToPlaylist(e)}
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-6 h-6 cursor-pointer hover:text-yellow-400 shrink-0'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M12 6v12m6-6H6'
-                />
-              </svg>
+              <div className='flex items-center '>
+                <span
+                  className='loading loading-spinner loading-sm hidden  shrink-0'
+                  id={`fetchingAddlist${itemPersonPlaylist._id}`}></span>
+
+                <svg
+                  id={`successAddlist${itemPersonPlaylist._id}`}
+                  onClick={() => handleAddToPlaylist(itemPersonPlaylist)}
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6 cursor-pointer hover:text-yellow-400 shrink-0'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M12 6v12m6-6H6'
+                  />
+                </svg>
+              </div>
 
               {/* Edit name playlist */}
               <svg
+                onClick={() => handleClickOpenEditName(itemPersonPlaylist)}
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
@@ -203,13 +281,48 @@ const AddPersonalPlaylist = ({ item }) => {
                   d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
                 />
               </svg>
+              {/* Edit name dialog */}
+              <Dialog
+                disableRestoreFocus
+                open={openEditName}
+                onClose={handleClickCloseEditName}
+                aria-labelledby='alert-dialog-title'
+                aria-describedby='alert-dialog-description'>
+                <DialogTitle
+                  id='alert-dialog-title'
+                  className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
+                  Tên playlist mới
+                </DialogTitle>
+                <DialogContent className='mt-3'>
+                  <input
+                    autoFocus
+                    placeholder='Nhập tên mới'
+                    className={`placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm mt-3`}
+                    value={newEditName}
+                    onChange={handleChangeNewEditName}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClickCloseEditName}>Hủy</Button>
+                  <button
+                    onClick={() => handleChangeNamePlaylist()}
+                    autoFocus
+                    className='btn btn-outline btn-accent'>
+                    {isFetchingEditName ? (
+                      <span className='loading loading-spinner loading-xs'></span>
+                    ) : (
+                      ""
+                    )}
+                    <span>Sửa</span>
+                  </button>
+                </DialogActions>
+              </Dialog>
 
               {/* Action delete playlist */}
-
               <div>
                 <button
                   onClick={() => {
-                    handleClickOpenDeleteDialog(e);
+                    handleClickOpenDeleteDialog(itemPersonPlaylist);
                   }}>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -245,7 +358,12 @@ const AddPersonalPlaylist = ({ item }) => {
                       color='error'
                       onClick={() => handleDeleteList(itemDelete._id)}
                       autoFocus>
-                      Có
+                      {isFetchingDeletelist ? (
+                        <span className='loading loading-spinner loading-xs  mr-3'></span>
+                      ) : (
+                        ""
+                      )}
+                      <span>Có</span>
                     </Button>
                   </DialogActions>
                 </Dialog>

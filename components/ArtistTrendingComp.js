@@ -181,6 +181,7 @@ const ArtistTrendingComp = ({
         {title2}
       </p>
       <Dialog
+        className=''
         open={open}
         onClose={handleClose}
         aria-labelledby='alert-dialog-title'
@@ -208,8 +209,8 @@ const ArtistTrendingComp = ({
             </IconButton>
           </div>
         </DialogTitle>
-        <DialogContent className='mt-3'>
-          <AddPersonalPlaylist item={playlist} />
+        <DialogContent className='mt-3 configScrollbar'>
+          <AddPersonalPlaylist listMusic={playlist} />
         </DialogContent>
       </Dialog>
     </div>
