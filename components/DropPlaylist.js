@@ -18,9 +18,9 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-const fetchWithToken = (urlGetAllPlaylist, accessToken) => {
+const fetchWithToken = async (urlGetAllPlaylist, accessToken) => {
   if (accessToken) {
-    return axios
+    return await axios
       .get(urlGetAllPlaylist, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
@@ -30,22 +30,7 @@ const fetchWithToken = (urlGetAllPlaylist, accessToken) => {
   }
 };
 const DropPlaylist = () => {
-  //Config dialog deleted
-  const [itemDelete, setItemDelete] = useState();
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [isFetchingDeletelist, setIsFetchingDeletelist] = useState(false);
-
-  const handleClickOpenDeleteDialog = (item) => {
-    setOpenDeleteDialog(true);
-    setItemDelete(item);
-  };
-
-  const handleCloseDeleteDialog = () => {
-    setOpenDeleteDialog(false);
-    setItemDelete(undefined);
-  };
   const { state, dispatch } = useContext(AppContext);
-  const [allUserPlaylist, setAllUserPlaylist] = useState();
   const [accessToken, setAccessToken] = useState();
   const { data: dataUserPlaylist, error: errorUserPlaylist } = useSWR(
     [urlGetAllPlaylist, accessToken],
@@ -61,19 +46,21 @@ const DropPlaylist = () => {
   useEffect(() => {
     dispatch({ type: "UPDATEPERSONPLAYLIST", payload: dataUserPlaylist });
   }, [dataUserPlaylist]);
-  // useEffect(() => {
-  //   const fetchGetAllPlaylist = async (token) => {
-  //     const res = await axios.get(urlGetAllPlaylist, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     setAllUserPlaylist(res.data.data);
-  //   };
-  //   if (state.userLogged) {
-  //     const accessToken = localStorage.getItem("accessKey");
 
-  //     fetchGetAllPlaylist(accessToken);
-  //   }
-  // }, [state.userLogged,state.isAddUserPlaylist]);
+  //Config dialog deleted
+  const [itemDelete, setItemDelete] = useState();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [isFetchingDeletelist, setIsFetchingDeletelist] = useState(false);
+
+  const handleClickOpenDeleteDialog = (item) => {
+    setOpenDeleteDialog(true);
+    setItemDelete(item);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+    setItemDelete(undefined);
+  };
 
   const handleAddPlaylist = (playlist) => {
     const list = playlist.map((item, index) => {

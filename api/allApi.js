@@ -28,26 +28,7 @@ export const urlGetPlaylist = `${URL}/list-music/get-by-id`;
 export const urlDeletePlaylist = `${URL}/list-music/delete-list-music`;
 export const urlChangeNamePlaylist = `${URL}/list-music/update-name-list-music`;
 export const urlAddItemPlaylist = `${URL}/list-music/add-list-music`;
-// payload con additemplaylist:
-// {_id: "64b3e1dcec34f0000899e4d0", _id_music: "64ad6ec69a4faf00084a816e", nameList: "Test3 playlistsss"}
-// const token = state.userLogin.accessToken;
-// const res = await axios.get(
-//   `https://api-kaito-music.vercel.app/api/search`,
-//   {
-//     params: {
-//       query: "Thuy",
-//     },
-//   }
-// );
 
-// {
-//   headers: { Authorization: `Bearer ${token}` },
-// }
-
-//   const res = await axios.post(
-//     `https://api-kaito-music.vercel.app/api/account/login`,
-//     {
-//       email: "tonecyber11@gmail.com",
-//       password: "12345678",
-//     }
-//   );
+//Favourite music
+export const urlFavoriteMusic = `${URL}/favorite/get-authorization-token`;
+export const urlAddFavorite = `${URL}/favorite/create`;

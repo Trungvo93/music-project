@@ -1,59 +1,22 @@
 "use client";
+import useSWR from "swr";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import {
-  urlCreatePlaylist,
-  urlGetPlaylist,
-  urlGetAllPlaylist,
-} from "@/api/allApi";
+import { urlFavoriteMusic } from "@/api/allApi";
 import { AppContext } from "@/context/context";
+
 const MyPlaylist = () => {
   const { state, dispatch } = useContext(AppContext);
 
-  useEffect(() => {
-    const fetchGetAllPlaylist = async (token) => {
-      const res = await axios.get(urlGetAllPlaylist, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      console.log(res.data);
-    };
-    if (state.userLogged) {
-      const accessToken = localStorage.getItem("accessKey");
-
-      fetchGetAllPlaylist(accessToken);
-    }
-  }, [state.userLogged]);
-
-  const handleCreatePlaylist = async () => {
-    const accessToken = localStorage.getItem("accessKey");
-    const res = await axios.post(
-      urlCreatePlaylist,
-      {
-        idMusic: "6438cbb5aa9627ecf4936574",
-        nameList: "Test3 playlist",
-      },
-      { headers: { Authorization: `Bearer ${accessToken}` } }
-    );
-
-    // idMusic là id của music chứ k phải tự tạo
-    console.log(res.data);
-  };
-
-  const handleGetPlaylist = async () => {
-    const accessToken = localStorage.getItem("accessKey");
-    const res = await axios.get(
-      `${urlGetPlaylist}?_id=64b2c66585040000080469b4`,
-
-      { headers: { Authorization: `Bearer ${accessToken}` } }
-    );
-
-    // idMusic là id của music chứ k phải tự tạo
-    console.log(res.data.data.array_music);
+  const handleShowFavorite = async () => {
+    const res = await axios.get(urlFavoriteMusic, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    console.log(res.data.data);
   };
   return (
     <div className='flex flex-col'>
-      <button onClick={() => handleCreatePlaylist()}>Create Playlist</button>
-      <button onClick={() => handleGetPlaylist()}>Get Playlist</button>
+      <button onClick={() => handleShowFavorite()}>Show favorite</button>
     </div>
   );
 };

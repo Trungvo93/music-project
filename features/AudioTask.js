@@ -1,14 +1,47 @@
 "use client";
+import useSWR from "swr";
 import { useRef, useState, useEffect, useContext } from "react";
 import { Slider, Popover, SwipeableDrawer, Divider } from "@mui/material";
 import { AppContext } from "../context/context";
 import styles from "../css/features/AudioTask.module.scss";
 import Image from "next/image";
+import axios from "axios";
+import { urlFavoriteMusic, urlAddFavorite } from "@/api/allApi";
+import { HeartSolid, HeartOutline } from "@/svg/svg";
+const fetchFavorite = async (url, token) => {
+  if (token) {
+    return await axios
+      .get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data.data);
+  } else {
+    return;
+  }
+};
 const AudioTask = () => {
   const [currentTrack, setCurrentTrack] = useState();
   const [displayCurrentTime, setDisplayCurrentTime] = useState();
   const { state, dispatch } = useContext(AppContext);
+  const [accessToken, setAccessToken] = useState();
+  const [favoriteList, setFavoriteList] = useState([]);
+  useEffect(() => {
+    // Perform localStorage action
+    const item = localStorage.getItem("accessKey");
+    setAccessToken(item);
+  }, [state.userLogged]);
 
+  const { data: dataFavorite, error: errorFavorite } = useSWR(
+    [urlFavoriteMusic, accessToken],
+    ([url, token]) => fetchFavorite(url, token)
+  );
+  useEffect(() => {
+    if (dataFavorite) {
+      const list = [];
+      dataFavorite.forEach((element) => list.push(element.id_music));
+      setFavoriteList(list);
+    }
+  }, [dataFavorite]);
   const audioRef = useRef();
   const [isPause, setIsPause] = useState(true);
   const [isPlay, setPlay] = useState(false);
@@ -19,7 +52,7 @@ const AudioTask = () => {
   const [sliderDuration, setSliderDuration] = useState(0);
   const [sliderVolume, setSliderVolume] = useState(30);
   const [anchorElVolume, setAnchorElVolume] = useState(null);
-
+  const [isFavorite, setIsFavorite] = useState(false);
   const handleClickVolume = (event) => {
     setAnchorElVolume(event.currentTarget);
   };
@@ -62,6 +95,19 @@ const AudioTask = () => {
     }
   }, [state.playList]);
 
+  useEffect(() => {
+    if (favoriteList) {
+      const found = favoriteList.find(
+        (element) => element === currentTrack._id
+      );
+      if (found) {
+        setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
+      }
+    }
+  }, [currentTrack, favoriteList]);
+
   const handleCanPlay = () => {
     setPlay(true);
   };
@@ -84,7 +130,6 @@ const AudioTask = () => {
       setIsPause(false);
     }
   };
-
   const handlePlayAudio = () => {
     audioRef.current.play();
     setIsPause(false);
@@ -235,6 +280,17 @@ const AudioTask = () => {
     localStorage.setItem("playList", tmp);
 
     dispatch({ type: "ADDPLAYLIST", payload: list });
+  };
+
+  const handleAddFavorite = async (idMusic) => {
+    const res = await axios.post(
+      urlAddFavorite,
+      { idMusic: idMusic },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    const newListFavorite = [...favoriteList];
+    newListFavorite.push(res.data.id_music);
+    setFavoriteList(newListFavorite);
   };
   if (currentTrack)
     return (
@@ -398,22 +454,27 @@ const AudioTask = () => {
         </div>
         <div className=' flex items-center gap-4 justify-end w-1/4 '>
           {/* like */}
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6 shrink-0'>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z'
-            />
-          </svg>
+          {isFavorite ? (
+            // Favorite
+            <div>
+              <HeartSolid
+                className={
+                  "w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 text-yellow-400"
+                }
+              />
+            </div>
+          ) : (
+            // Not favorite
+            <div onClick={() => handleAddFavorite(currentTrack._id)}>
+              <HeartOutline
+                className={
+                  "w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 "
+                }
+              />
+            </div>
+          )}
 
           {/* volume */}
-
           <div>
             {/* Icon Volume */}
             <svg
@@ -422,7 +483,7 @@ const AudioTask = () => {
               viewBox='0 0 24 24'
               strokeWidth={1.5}
               stroke='currentColor'
-              className='w-6 h-6 shrink-0'
+              className='w-6 h-6 shrink-0 cursor-pointer hover:text-white hover:scale-125 duration-300'
               aria-describedby={id}
               variant='contained'
               onClick={handleClickVolume}>
@@ -491,7 +552,6 @@ const AudioTask = () => {
               d='M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z'
             />
           </svg>
-
           {/* ShowPlaylist */}
           <SwipeableDrawer
             anchor='right'
