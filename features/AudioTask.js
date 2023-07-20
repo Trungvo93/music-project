@@ -320,9 +320,10 @@ const AudioTask = () => {
 
   // Dialog
   const [openDialog, setOpenDialog] = useState(false);
-
-  const handleClickOpenDialog = () => {
+  const [itemAddPersonalPlaylist, setItemAddPersonalPlaylist] = useState();
+  const handleClickOpenDialog = (item) => {
     setOpenDialog(true);
+    setItemAddPersonalPlaylist(item);
   };
 
   const handleCloseDialog = () => {
@@ -675,7 +676,7 @@ const AudioTask = () => {
                     </div>
                   )}
 
-                  <div onClick={() => handleClickOpenDialog()}>
+                  <div onClick={() => handleClickOpenDialog(item)}>
                     <MoreInfo className='w-6 h-6 justify-items-end cursor-pointer	' />
                   </div>
                   <Dialog
@@ -708,7 +709,9 @@ const AudioTask = () => {
                       </div>
                     </DialogTitle>
                     <DialogContent className='mt-3 configScrollbar'>
-                      <AddPersonalPlaylist listMusic={item} />
+                      <AddPersonalPlaylist
+                        listMusic={itemAddPersonalPlaylist}
+                      />
                     </DialogContent>
                   </Dialog>
                 </div>

@@ -109,13 +109,12 @@ const AddPersonalPlaylist = ({ listMusic }) => {
   };
 
   const handleAddToPlaylist = async (itemPersonPlaylist) => {
-    document.getElementById(
-      `successAddlist${itemPersonPlaylist._id}`
-    ).style.display = "none";
-    document.getElementById(
-      `fetchingAddlist${itemPersonPlaylist._id}`
-    ).style.display = "block";
-
+    document
+      .querySelectorAll(`.successAddlist${itemPersonPlaylist._id}`)
+      .forEach((i) => (i.style.display = "none"));
+    document
+      .querySelectorAll(`.fetchingAddlist${itemPersonPlaylist._id}`)
+      .forEach((i) => (i.style.display = "block"));
     const accessToken = localStorage.getItem("accessKey");
     if (Array.isArray(listMusic)) {
       const resPromise = await Promise.all(
@@ -141,12 +140,12 @@ const AddPersonalPlaylist = ({ listMusic }) => {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
     }
-    document.getElementById(
-      `fetchingAddlist${itemPersonPlaylist._id}`
-    ).style.display = "none";
-    document.getElementById(
-      `successAddlist${itemPersonPlaylist._id}`
-    ).style.display = "block";
+    document
+      .querySelectorAll(`.fetchingAddlist${itemPersonPlaylist._id}`)
+      .forEach((i) => (i.style.display = "none"));
+    document
+      .querySelectorAll(`.successAddlist${itemPersonPlaylist._id}`)
+      .forEach((i) => (i.style.display = "block"));
   };
 
   //Edit name playlist
@@ -246,18 +245,16 @@ const AddPersonalPlaylist = ({ listMusic }) => {
               {/* Add to playlist */}
               <div className='flex items-center '>
                 <span
-                  className='loading loading-spinner loading-sm hidden  shrink-0'
-                  id={`fetchingAddlist${itemPersonPlaylist._id}`}></span>
+                  className={`loading loading-spinner loading-sm hidden  shrink-0 fetchingAddlist${itemPersonPlaylist._id}`}></span>
 
                 <svg
-                  id={`successAddlist${itemPersonPlaylist._id}`}
                   onClick={() => handleAddToPlaylist(itemPersonPlaylist)}
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-6 h-6 cursor-pointer hover:text-yellow-400 shrink-0'>
+                  className={`w-6 h-6 cursor-pointer hover:text-yellow-400 shrink-0 successAddlist${itemPersonPlaylist._id}`}>
                   <path
                     strokeLinecap='round'
                     strokeLinejoin='round'
