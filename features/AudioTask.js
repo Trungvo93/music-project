@@ -1,13 +1,28 @@
 "use client";
 import useSWR from "swr";
 import { useRef, useState, useEffect, useContext } from "react";
-import { Slider, Popover, SwipeableDrawer, Divider } from "@mui/material";
+import {
+  Slider,
+  Popover,
+  SwipeableDrawer,
+  Divider,
+  Tooltip,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
+
 import { AppContext } from "../context/context";
 import styles from "../css/features/AudioTask.module.scss";
 import Image from "next/image";
 import axios from "axios";
 import { urlFavoriteMusic, urlAddFavorite } from "@/api/allApi";
-import { HeartSolid, HeartOutline } from "@/svg/svg";
+import { HeartSolid, HeartOutline, MoreInfo } from "@/svg/svg";
+import AddPersonalPlaylist from "@/components/AddPersonalPlaylist";
 const fetchFavorite = async (url, token) => {
   if (token) {
     return await axios
@@ -107,7 +122,6 @@ const AudioTask = () => {
       }
     }
   }, [currentTrack, favoriteList]);
-
   const handleCanPlay = () => {
     setPlay(true);
   };
@@ -292,6 +306,28 @@ const AudioTask = () => {
     newListFavorite.push(res.data.id_music);
     setFavoriteList(newListFavorite);
   };
+
+  const handleDeleteFavorite = async (idMusic) => {
+    const res = await axios.post(
+      urlAddFavorite,
+      { idMusic: idMusic },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    const index = favoriteList.findIndex((e) => e === res.data.id_music);
+    favoriteList.splice(index, 1);
+    setFavoriteList([...favoriteList]);
+  };
+
+  // Dialog
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   if (currentTrack)
     return (
       <div className='flex justify-between px-5 audioTask'>
@@ -454,9 +490,9 @@ const AudioTask = () => {
         </div>
         <div className=' flex items-center gap-4 justify-end w-1/4 '>
           {/* like */}
-          {isFavorite ? (
+          {favoriteList.find((e) => e === currentTrack._id) ? (
             // Favorite
-            <div>
+            <div onClick={() => handleDeleteFavorite(currentTrack._id)}>
               <HeartSolid
                 className={
                   "w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 text-yellow-400"
@@ -625,22 +661,57 @@ const AudioTask = () => {
                 </div>
 
                 <div className='w-full'>
-                  <p className='font-medium'>{item.name_music}</p>
+                  <p className='font-medium '>{item.name_music}</p>
                   <p className='text-sm	text-slate-700	'>{item.name_singer}</p>
                 </div>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='currentColor'
-                  className='w-6 h-6 justify-items-end cursor-pointer	'>
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
-                  />
-                </svg>
+                <div className='flex justify-center items-center gap-3 ms-3'>
+                  {favoriteList.find((e) => e === item._id) ? (
+                    <div onClick={() => handleDeleteFavorite(item._id)}>
+                      <HeartSolid className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 text-yellow-400 ' />
+                    </div>
+                  ) : (
+                    <div onClick={() => handleAddFavorite(item._id)}>
+                      <HeartOutline className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 ' />{" "}
+                    </div>
+                  )}
+
+                  <div onClick={() => handleClickOpenDialog()}>
+                    <MoreInfo className='w-6 h-6 justify-items-end cursor-pointer	' />
+                  </div>
+                  <Dialog
+                    className=''
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    aria-labelledby='alert-dialog-title'
+                    aria-describedby='alert-dialog-description'>
+                    <DialogTitle className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
+                      <div className='flex justify-between items-center'>
+                        <p>Thêm vào Playlist</p>
+                        <IconButton
+                          onClick={() => {
+                            handleCloseDialog();
+                          }}>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth={1.5}
+                            stroke='currentColor'
+                            className='w-6 h-6'>
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              d='M6 18L18 6M6 6l12 12'
+                            />
+                          </svg>
+                        </IconButton>
+                      </div>
+                    </DialogTitle>
+                    <DialogContent className='mt-3 configScrollbar'>
+                      <AddPersonalPlaylist listMusic={item} />
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </div>
             ))}
           </SwipeableDrawer>

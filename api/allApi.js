@@ -32,3 +32,4 @@ export const urlAddItemPlaylist = `${URL}/list-music/add-list-music`;
 //Favourite music
 export const urlFavoriteMusic = `${URL}/favorite/get-authorization-token`;
 export const urlAddFavorite = `${URL}/favorite/create`;
+export const urlDeleteFavorite = `${URL}/favorite/create`;
