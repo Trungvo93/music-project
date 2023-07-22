@@ -18,7 +18,6 @@ import {
   urlChangeNamePlaylist,
 } from "@/api/allApi";
 import axios from "axios";
-import { async } from "@firebase/util";
 const AddPersonalPlaylist = ({ listMusic }) => {
   const { state, dispatch } = useContext(AppContext);
   //Config dialog deleted

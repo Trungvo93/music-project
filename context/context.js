@@ -8,7 +8,6 @@ const initialState = {
   isLogin: false,
   isAddUserPlaylist: false,
   personPlaylist: [],
-  favoriteList: [],
 };
 
 const reducer = (state, action) => {
@@ -30,8 +29,7 @@ const reducer = (state, action) => {
       return { ...state, isLogin: false };
     case "UPDATEPERSONPLAYLIST":
       return { ...state, personPlaylist: payload };
-    case "UPDATEFAVORITELIST":
-      return { ...state, favoriteList: payload };
+
     default:
       return state;
   }
