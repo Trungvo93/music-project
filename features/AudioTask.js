@@ -21,7 +21,7 @@ import styles from "../css/features/AudioTask.module.scss";
 import Image from "next/image";
 import axios from "axios";
 import { urlFavoriteMusic, urlAddFavorite } from "@/api/allApi";
-import { HeartSolid, HeartOutline, MoreInfo } from "@/svg/svg";
+import { HeartSolidIcon, HeartOutlineIcon, MoreInfoIcon } from "@/svg/svg";
 import AddPersonalPlaylist from "@/components/AddPersonalPlaylist";
 const fetchFavorite = async (url, token) => {
   if (token) {
@@ -494,7 +494,7 @@ const AudioTask = () => {
           {favoriteList.find((e) => e === currentTrack._id) ? (
             // Favorite
             <div onClick={() => handleDeleteFavorite(currentTrack._id)}>
-              <HeartSolid
+              <HeartSolidIcon
                 className={
                   "w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 text-yellow-400"
                 }
@@ -503,7 +503,7 @@ const AudioTask = () => {
           ) : (
             // Not favorite
             <div onClick={() => handleAddFavorite(currentTrack._id)}>
-              <HeartOutline
+              <HeartOutlineIcon
                 className={
                   "w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 "
                 }
@@ -668,17 +668,19 @@ const AudioTask = () => {
                 <div className='flex justify-center items-center gap-3 ms-3'>
                   {favoriteList.find((e) => e === item._id) ? (
                     <div onClick={() => handleDeleteFavorite(item._id)}>
-                      <HeartSolid className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 text-yellow-400 ' />
+                      <HeartSolidIcon className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 text-yellow-400 ' />
                     </div>
                   ) : (
                     <div onClick={() => handleAddFavorite(item._id)}>
-                      <HeartOutline className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 ' />{" "}
+                      <HeartOutlineIcon className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 ' />{" "}
                     </div>
                   )}
 
                   <Tooltip
                     title={
                       <div className='grid gap-y-3 p-2'>
+
+                        {/* Download mp3 file */}
                         <div className='flex items-center gap-2 cursor-pointer hover:text-yellow-200'>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
@@ -732,7 +734,7 @@ const AudioTask = () => {
                       </div>
                     }>
                     <div>
-                      <MoreInfo className='w-6 h-6 justify-items-end cursor-pointer	' />
+                      <MoreInfoIcon className='w-6 h-6 justify-items-end cursor-pointer	' />
                     </div>
                   </Tooltip>
 
