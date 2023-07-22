@@ -15,6 +15,28 @@ import {
 import styles from "../css/components/ArtistTrending.module.scss";
 import { AppContext } from "../context/context";
 import AddPersonalPlaylist from "./AddPersonalPlaylist";
+
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Space } from "antd";
+
+const items = [
+  {
+    label: <a href='https://www.antgroup.com'>1st menu item</a>,
+    key: "0",
+  },
+  {
+    label: <a href='https://www.aliyun.com'>2nd menu item</a>,
+    key: "1",
+  },
+  {
+    type: "divider",
+  },
+  {
+    label: "3rd menu item",
+    key: "3",
+  },
+];
+
 const ArtistTrendingComp = ({
   playlist,
   srcImage,
@@ -100,21 +122,19 @@ const ArtistTrendingComp = ({
               d='M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z'
             />
           </svg>
-          <div className='dropdown'>
-            <label tabIndex={0} className='btn m-1'>
-              Click
-            </label>
-            <ul
-              tabIndex={0}
-              className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'>
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Item 2</a>
-              </li>
-            </ul>
-          </div>
+
+          <Dropdown
+            menu={{
+              items,
+            }}
+            trigger={["click"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                Click me
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
           <Tooltip
             title={
               <div className='grid gap-y-3 p-2'>
