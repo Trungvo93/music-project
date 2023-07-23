@@ -185,8 +185,8 @@ const AudioTask = () => {
       secs = "0" + secs;
     }
     setDuration(`${mins}:${secs}`);
+    audioRef.current.currentTime = 0;
     if (isPlay || state.firstPlay) {
-      handlePauseAudio();
       handlePlayAudio();
     }
   };
@@ -257,11 +257,11 @@ const AudioTask = () => {
         state.playList[index].isActive = false;
       }
     }
-    handlePlayAudio();
 
     dispatch({ type: "ADDPLAYLIST", payload: state.playList });
     const tmp = JSON.stringify(state.playList).toString();
     localStorage.setItem("playList", tmp);
+    handlePlayAudio();
   };
 
   const handleRepeat = () => {
