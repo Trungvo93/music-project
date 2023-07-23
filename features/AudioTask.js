@@ -166,7 +166,11 @@ const AudioTask = () => {
     }
   }, [currentTrack]);
   const handleCanPlay = () => {
-    setPlay(true);
+    if (isPlay || state.firstPlay) {
+      // audioRef.current.play();
+      // setIsPause(false);
+      handlePlayAudio();
+    }
   };
 
   const handleLoadedData = () => {
@@ -183,8 +187,9 @@ const AudioTask = () => {
     }
     setDuration(`${mins}:${secs}`);
     if (isPlay || state.firstPlay) {
-      audioRef.current.play();
-      setIsPause(false);
+      // audioRef.current.play();
+      // setIsPause(false);
+      handlePlayAudio();
     }
   };
   const handlePlayAudio = () => {
@@ -313,10 +318,6 @@ const AudioTask = () => {
   };
 
   const handlePlayList = (item, index) => {
-    setCurrentTrack(item);
-    setActiveTrack(index);
-    handlePlayAudio();
-
     const list = state.playList.map((item, index1) => {
       if (index === index1) {
         item.isActive = true;
@@ -329,6 +330,9 @@ const AudioTask = () => {
     localStorage.setItem("playList", tmp);
 
     dispatch({ type: "ADDPLAYLIST", payload: list });
+    setCurrentTrack(item);
+    setActiveTrack(index);
+    handlePlayAudio();
   };
 
   const handleAddFavorite = async (idMusic) => {
