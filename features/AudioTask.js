@@ -222,8 +222,7 @@ const AudioTask = () => {
         state.playList[index].isActive = false;
       }
     }
-    setPlay(true);
-    setIsPause(false);
+    handlePlayAudio();
 
     dispatch({ type: "ADDPLAYLIST", payload: state.playList });
     const tmp = JSON.stringify(state.playList).toString();
@@ -255,8 +254,7 @@ const AudioTask = () => {
         state.playList[index].isActive = false;
       }
     }
-    setPlay(true);
-    setIsPause(false);
+    handlePlayAudio();
 
     dispatch({ type: "ADDPLAYLIST", payload: state.playList });
     const tmp = JSON.stringify(state.playList).toString();
