@@ -158,14 +158,14 @@ const AudioTask = () => {
       document.getElementsByClassName("sectionFooter")[0].style.display =
         "none";
     }
-    if (isPlay === false && isPause) {
-      audioRef.current.play();
-      setIsPause(false);
-    }
   }, [state.playList]);
 
+  useEffect(() => {
+    if (isPlay === false) {
+      handlePlayAudio();
+    }
+  }, [currentTrack]);
   const handleCanPlay = () => {
-    setIsPause(false);
     setPlay(true);
   };
 
@@ -188,12 +188,14 @@ const AudioTask = () => {
     }
   };
   const handlePlayAudio = () => {
-    audioRef.current.play();
     setIsPause(false);
+    setPlay(true);
+    audioRef.current.play();
   };
   const handlePauseAudio = () => {
-    audioRef.current.pause();
     setIsPause(true);
+    setPlay(false);
+    audioRef.current.pause();
   };
   const handlePrevious = () => {
     const index = state.playList.findIndex((item) => item.isActive == true);
