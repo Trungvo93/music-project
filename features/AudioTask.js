@@ -166,10 +166,7 @@ const AudioTask = () => {
     }
   }, [currentTrack]);
   const handleCanPlay = () => {
-    if (isPlay || state.firstPlay) {
-      handlePauseAudio();
-      handlePlayAudio();
-    }
+    setPlay(true);
   };
 
   const handleLoadedData = () => {
