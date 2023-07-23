@@ -158,6 +158,9 @@ const AudioTask = () => {
       document.getElementsByClassName("sectionFooter")[0].style.display =
         "none";
     }
+    if (isPlay) {
+      handlePlayAudio();
+    }
   }, [state.playList]);
 
   useEffect(() => {
