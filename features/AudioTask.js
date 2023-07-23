@@ -40,6 +40,7 @@ import {
   CloseIcon,
 } from "@/svg/svg";
 import AddPersonalPlaylist from "@/components/AddPersonalPlaylist";
+import { downloadFile } from "../hooks/downloadFile";
 const fetchFavorite = async (url, token) => {
   if (token) {
     return await axios
@@ -56,7 +57,14 @@ const AudioTask = () => {
   const items = [
     {
       label: (
-        <div className='flex items-center gap-2 cursor-pointer hover:text-yellow-400 hover:font-medium'>
+        <div
+          className='flex items-center gap-2 cursor-pointer hover:text-yellow-400 hover:font-medium'
+          onClick={() => {
+            downloadFile(
+              itemFocusListMusicPlaying.src_music,
+              itemFocusListMusicPlaying.slug_name_music
+            );
+          }}>
           <DownloadIcon className='w-6 h-6' />
           <button>Tải xuống</button>
         </div>
