@@ -167,8 +167,7 @@ const AudioTask = () => {
   }, [currentTrack]);
   const handleCanPlay = () => {
     if (isPlay || state.firstPlay) {
-      // audioRef.current.play();
-      // setIsPause(false);
+      handlePauseAudio();
       handlePlayAudio();
     }
   };
@@ -187,8 +186,7 @@ const AudioTask = () => {
     }
     setDuration(`${mins}:${secs}`);
     if (isPlay || state.firstPlay) {
-      // audioRef.current.play();
-      // setIsPause(false);
+      handlePauseAudio();
       handlePlayAudio();
     }
   };
@@ -373,6 +371,7 @@ const AudioTask = () => {
     return (
       <div className='flex justify-between px-5 audioTask'>
         <audio
+          autoPlay
           ref={audioRef}
           src={currentTrack ? currentTrack.src_music : ""}
           onTimeUpdate={handleSlider}
