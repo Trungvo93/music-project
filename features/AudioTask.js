@@ -315,8 +315,7 @@ const AudioTask = () => {
   const handlePlayList = (item, index) => {
     setCurrentTrack(item);
     setActiveTrack(index);
-    setPlay(true);
-    audioRef.current.play();
+    handlePlayAudio();
 
     const list = state.playList.map((item, index1) => {
       if (index === index1) {
