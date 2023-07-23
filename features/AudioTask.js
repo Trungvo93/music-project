@@ -1,20 +1,6 @@
 "use client";
 import useSWR from "swr";
 import { useRef, useState, useEffect, useContext } from "react";
-import {
-  // Slider,
-  // Popover,
-  SwipeableDrawer,
-  // Divider,
-  Tooltip,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
 
 import { AppContext } from "../context/context";
 import styles from "../css/features/AudioTask.module.scss";
@@ -23,7 +9,16 @@ import axios from "axios";
 import { urlFavoriteMusic, urlAddFavorite } from "@/api/allApi";
 
 //Ant Design
-import { Slider, Popover, Divider, Drawer, Space, Dropdown } from "antd";
+import {
+  Slider,
+  Popover,
+  Divider,
+  Drawer,
+  Space,
+  Dropdown,
+  Modal,
+  Button,
+} from "antd";
 
 //SVG icon
 import {
@@ -42,6 +37,7 @@ import {
   DownloadIcon,
   MVIcon,
   DetailIcon,
+  CloseIcon,
 } from "@/svg/svg";
 import AddPersonalPlaylist from "@/components/AddPersonalPlaylist";
 const fetchFavorite = async (url, token) => {
@@ -99,6 +95,8 @@ const AudioTask = () => {
   const [currentTrack, setCurrentTrack] = useState();
   const [displayCurrentTime, setDisplayCurrentTime] = useState();
   const { state, dispatch } = useContext(AppContext);
+
+  //Get Favorite list
   const [accessToken, setAccessToken] = useState();
   const [favoriteList, setFavoriteList] = useState([]);
   useEffect(() => {
@@ -118,17 +116,16 @@ const AudioTask = () => {
       setFavoriteList(list);
     }
   }, [dataFavorite]);
+
   const audioRef = useRef();
   const [isPause, setIsPause] = useState(true);
-  const [isPlay, setPlay] = useState(false);
+  const [isPlay, setPlay] = useState();
   const [isShuffle, setShuffle] = useState(false);
   const [isRepeat, setRepeat] = useState(false);
   const [duration, setDuration] = useState();
   const [position, setPosition] = useState(0);
   const [sliderDuration, setSliderDuration] = useState(0);
   const [sliderVolume, setSliderVolume] = useState(30);
-  const [anchorElVolume, setAnchorElVolume] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [openVolume, setOpenVolume] = useState(false);
   const handleClickVolume = (newOpen) => {
     setOpenVolume(newOpen);
@@ -161,25 +158,14 @@ const AudioTask = () => {
       document.getElementsByClassName("sectionFooter")[0].style.display =
         "none";
     }
-    if (isPlay && isPause) {
+    if (isPlay === false && isPause) {
       audioRef.current.play();
       setIsPause(false);
     }
   }, [state.playList]);
 
-  useEffect(() => {
-    if (favoriteList) {
-      const found = favoriteList.find(
-        (element) => element === currentTrack._id
-      );
-      if (found) {
-        setIsFavorite(true);
-      } else {
-        setIsFavorite(false);
-      }
-    }
-  }, [currentTrack, favoriteList]);
   const handleCanPlay = () => {
+    setIsPause(false);
     setPlay(true);
   };
 
@@ -234,6 +220,7 @@ const AudioTask = () => {
         state.playList[index].isActive = false;
       }
     }
+    setPlay(true);
     setIsPause(false);
 
     dispatch({ type: "ADDPLAYLIST", payload: state.playList });
@@ -266,6 +253,7 @@ const AudioTask = () => {
         state.playList[index].isActive = false;
       }
     }
+    setPlay(true);
     setIsPause(false);
 
     dispatch({ type: "ADDPLAYLIST", payload: state.playList });
@@ -323,23 +311,11 @@ const AudioTask = () => {
   const handleCloseShowList = () => {
     setShowPlaylist(false);
   };
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setShowPlaylist(open);
-  };
 
   const handlePlayList = (item, index) => {
     setCurrentTrack(item);
     setActiveTrack(index);
     setPlay(true);
-
     audioRef.current.play();
 
     const list = state.playList.map((item, index1) => {
@@ -389,7 +365,7 @@ const AudioTask = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  console.log(isPause);
+
   if (currentTrack)
     return (
       <div className='flex justify-between px-5 audioTask'>
@@ -573,11 +549,7 @@ const AudioTask = () => {
                 className={`flex gap-2 p-3 items-center	hover:bg-amber-50/50 bgShowPlaylist group ${
                   activeTrack === index ? "bg-amber-50/75 " : ""
                 } `}>
-                <div
-                  className='relative'
-                  onClick={() => {
-                    handlePlayList(item, index);
-                  }}>
+                <div className='relative'>
                   <div
                     className='relative '
                     style={{ width: "40px", height: "40px" }}>
@@ -596,31 +568,33 @@ const AudioTask = () => {
                   </div>
 
                   {/* Play button */}
-
-                  <PlayIcon
-                    className={`w-5 h-5 absolute text-white     top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer      
+                  <div
+                    onClick={() => {
+                      handlePlayList(item, index);
+                    }}>
+                    <PlayIcon
+                      className={`w-5 h-5 absolute text-white   z-30   top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer      
                     ${
                       activeTrack === index && isPause
-                        ? "block z-30 group-hover:hidden"
-                        : "hidden group-hover:block z-30"
-                    } `}
-                  />
+                        ? "block z-30 "
+                        : "hidden "
+                    }
+                    ${activeTrack !== index ? "group-hover:block" : ""}
 
+                    `}
+                    />
+                  </div>
                   {/* Pause button */}
-                  <PauseIcon
-                    className={`w-5 h-5 absolute text-white  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer   ${
-                      activeTrack === index && isPause === false
-                        ? "block z-30 group-hover:hidden"
-                        : "hidden group-hover:block z-30"
-                    }
-
-                    ${
-                      activeTrack === index
-                        ? "group-hover:block"
-                        : "group-hover:hidden"
-                    }
+                  <div onClick={() => handlePauseAudio()}>
+                    <PauseIcon
+                      className={`w-5 h-5 absolute text-white  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer   ${
+                        activeTrack === index && isPause === false
+                          ? "block z-30"
+                          : "hidden "
+                      }
                      `}
-                  />
+                    />
+                  </div>
                 </div>
 
                 <div className='w-full'>
@@ -655,41 +629,28 @@ const AudioTask = () => {
                       </Space>
                     </a>
                   </Dropdown>
-                  <Dialog
-                    className=''
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby='alert-dialog-title'
-                    aria-describedby='alert-dialog-description'>
-                    <DialogTitle className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
-                      <div className='flex justify-between items-center'>
+
+                  <Modal
+                    closeIcon={null}
+                    mask={false}
+                    footer={null}
+                    title={
+                      <div className='flex justify-between items-center text-blue-700 border-b-2 border-stone-100 pb-2'>
                         <p>Thêm vào Playlist</p>
-                        <IconButton
+                        <Button
+                          className='flex justify-center items-center'
+                          type='text'
+                          shape='circle'
                           onClick={() => {
                             handleCloseDialog();
-                          }}>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-6 h-6'>
-                            <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              d='M6 18L18 6M6 6l12 12'
-                            />
-                          </svg>
-                        </IconButton>
+                          }}
+                          icon={<CloseIcon className='w-5 h-5' />}></Button>
                       </div>
-                    </DialogTitle>
-                    <DialogContent className='mt-3 configScrollbar'>
-                      <AddPersonalPlaylist
-                        listMusic={itemAddPersonalPlaylist}
-                      />
-                    </DialogContent>
-                  </Dialog>
+                    }
+                    open={openDialog}
+                    onCancel={handleCloseDialog}>
+                    <AddPersonalPlaylist listMusic={itemAddPersonalPlaylist} />
+                  </Modal>
                 </div>
               </div>
             ))}
