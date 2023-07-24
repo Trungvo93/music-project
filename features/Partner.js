@@ -95,7 +95,7 @@ const Partner = () => {
             alt={`sony`}
             width={300}
             height={300}
-            className='object-cover w-[100px] w-[100px] '
+            className='object-cover w-[100px] '
           />
         </div>
       </div>

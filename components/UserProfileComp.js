@@ -40,7 +40,6 @@ const UserProfileComp = () => {
     let height = document.getElementById("rightBannerUserProfile").offsetHeight;
     setHeightRightBanner(height);
   }, [windowWidth]);
-  console.log(heightRightBanner);
   return (
     <div>
       {/* Header profile */}

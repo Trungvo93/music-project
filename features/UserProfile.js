@@ -1,13 +1,5 @@
 "use client";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Button, Modal } from "antd";
 import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import LoginComp from "@/components/LoginComp";
@@ -40,36 +32,39 @@ const UserProfile = () => {
       <div>
         {state.userLogged ? <UserProfileComp /> : <SkeletonUserProfile />}
       </div>
-      <Dialog
+      <Modal
+        closeIcon={null}
+        mask={false}
+        footer={null}
+        title={
+          <div className='flex justify-between items-center text-blue-700 border-b-2 border-stone-100 pb-2'>
+            <p className='text-blue-700'>{"Đăng nhập để sử dụng"}</p>
+            <Button
+              className='flex justify-center items-center'
+              type='text'
+              shape='circle'>
+              <Link href='/'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-5 h-5 hover:text-rose-500'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M6 18L18 6M6 6l12 12'
+                  />
+                </svg>
+              </Link>
+            </Button>
+          </div>
+        }
         open={openRemindLogin}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'>
-        <DialogTitle
-          id='alert-dialog-title'
-          className='flex justify-between border-b-2 border-stone-100 p-0 m-2 '>
-          <p className='text-blue-700'>{"Đăng nhập để sử dụng"}</p>
-          <IconButton>
-            <Link href='/'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-5 h-5 hover:text-rose-500'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M6 18L18 6M6 6l12 12'
-                />
-              </svg>
-            </Link>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent className='md:w-[500px] w-auto'>
-          <LoginComp />
-        </DialogContent>
-      </Dialog>
+        onCancel={handleClickCloseRemindLogin}>
+        <LoginComp />
+      </Modal>
     </div>
   );
 };
