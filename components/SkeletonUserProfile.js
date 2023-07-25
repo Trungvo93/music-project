@@ -1,6 +1,5 @@
 "use client";
-import { Skeleton } from "@mui/material";
-
+import { Skeleton } from "antd";
 const SkeletonUserProfile = () => {
   return (
     <div className='m-3'>
@@ -14,7 +13,7 @@ const SkeletonUserProfile = () => {
           <p className='text-blue-500 text-xl font-medium'>PLAYLIST | ALBUM</p>
         </div>
         <div className='grid lg:grid-cols-4 grid-cols-2 gap-4'>
-          <Skeleton
+          {/* <Skeleton
             variant='rectangular'
             className='w-full h-48'
             animation='wave'
@@ -33,7 +32,11 @@ const SkeletonUserProfile = () => {
             variant='rectangular'
             className='w-full h-48'
             animation='wave'
-          />
+          /> */}
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
         </div>
       </div>
 
@@ -42,7 +45,16 @@ const SkeletonUserProfile = () => {
           <p className='text-orange-400 text-xl font-medium'>NGHE GẦN ĐÂY</p>
         </div>
         <div className='grid lg:grid-cols-8 grid-cols-4 gap-4'>
-          <Skeleton
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+          <Skeleton active block={true} />
+
+          {/* <Skeleton
             variant='rectangular'
             className='w-full lg:h-36 md:h-28 h-12'
             animation='wave'
@@ -81,7 +93,7 @@ const SkeletonUserProfile = () => {
             variant='rectangular'
             className='w-full lg:h-36 md:h-28 h-12'
             animation='wave'
-          />
+          /> */}
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { PlayIcon } from "@/svg/svg";
 import Image from "next/image";
 const RadioComp = ({
   srcBackground,
@@ -7,7 +8,6 @@ const RadioComp = ({
   title,
   listenCount,
 }) => {
-  console.log(srcBackground);
   return (
     <div>
       <div className='relative ring-offset ring-gray-400 ring-4 rounded-full w-full group cursor-pointer '>
@@ -33,24 +33,7 @@ const RadioComp = ({
             className='rounded-full  object-cover w-auto h-auto '
           />
         </div>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          strokeWidth={1.5}
-          stroke='currentColor'
-          className='z-30 w-16 h-16 hover:text-yellow-200 absolute  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-white hidden group-hover:block 	'>
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-          />
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z'
-          />
-        </svg>
+        <PlayIcon className='z-30 w-16 h-16 hover:text-yellow-200 absolute  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-white hidden group-hover:block 	' />
       </div>
       <div className='text-center mt-3'>
         <p className='font-bold'>{title}</p>

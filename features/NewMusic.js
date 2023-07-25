@@ -6,6 +6,7 @@ import Image from "next/image";
 import useSWR from "swr";
 import { AppContext } from "../context/context";
 import { urlNewMusic } from "../api/allApi";
+import { ArrowRightIcon, PlayIcon } from "@/svg/svg";
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 const NewMusic = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -63,19 +64,7 @@ const NewMusic = () => {
           href='/newmusic'
           className='flex text-xs items-center hover:text-red-400'>
           <p>TẤT CẢ</p>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-3 h-3'>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M8.25 4.5l7.5 7.5-7.5 7.5'
-            />
-          </svg>
+          <ArrowRightIcon className='w-3 h-3' />
         </Link>
       </div>
       <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
@@ -88,6 +77,7 @@ const NewMusic = () => {
                     onClick={() => {
                       handlePlayList(index);
                     }}>
+                    <div className='  w-full h-full absolute inset-0 -z-10 group-hover:z-10 bg-[#000000] opacity-30'></div>
                     <Image
                       src={item.image_music}
                       alt={item.slug_name_music}
@@ -95,18 +85,7 @@ const NewMusic = () => {
                       height={60}
                       className='rounded-md w-auto  '
                     />
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'
-                      fill='currentColor'
-                      className='w-5 h-5 absolute text-white  hidden cursor-pointer group-hover:block'
-                      style={{
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                      }}>
-                      <path d='M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z' />
-                    </svg>
+                    <PlayIcon className='w-5 h-5 absolute text-white  hidden cursor-pointer group-hover:block top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:text-yellow-200 z-30' />
                   </div>
                   <div>
                     <p className='line-clamp-1 font-medium'>

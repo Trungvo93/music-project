@@ -1,3 +1,4 @@
+import { PlayIcon } from "@/svg/svg";
 import Image from "next/image";
 import { useContext } from "react";
 import { AppContext } from "../context/context";
@@ -26,7 +27,7 @@ const RankComp = ({ srcBanner, altBanner, listData }) => {
     <div>
       <div>
         {/* Banner */}
-        <div className='w-full  my-3 rounded-md overflow-hidden group relative cursor-pointer'>
+        <div className='w-full  my-3 rounded-md overflow-hidden group relative '>
           <div className='-z-10 w-full h-full bg-[#000000] opacity-30 group-hover:z-10 absolute inset-0'></div>
           <Image
             src={srcBanner}
@@ -35,19 +36,9 @@ const RankComp = ({ srcBanner, altBanner, listData }) => {
             height={1000}
             className='w-full h-full object-cover group-hover:scale-125 duration-500'
           />
-
-          <svg
-            onClick={() => handleAddPlaylist()}
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 24 24'
-            fill='currentColor'
-            className='w-6 h-6 md:w-10 md:h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white hidden group-hover:block hover:text-yellow-400 z-30'>
-            <path
-              fillRule='evenodd'
-              d='M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z'
-              clipRule='evenodd'
-            />
-          </svg>
+          <div className='cursor-pointer' onClick={() => handleAddPlaylist()}>
+            <PlayIcon className='w-6 h-6 md:w-10 md:h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white hidden group-hover:block hover:text-yellow-400 z-30' />
+          </div>
         </div>
         <div>
           {listData

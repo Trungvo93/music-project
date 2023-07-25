@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "@/context/context";
-import { Avatar } from "@mui/material";
+import { PlayIcon } from "@/svg/svg";
 const UserProfileComp = () => {
   const { state } = useContext(AppContext);
   const [createDate, setCreateDate] = useState();
@@ -97,19 +97,7 @@ const UserProfileComp = () => {
             <Link
               href={"/"}
               className='group-hover/USUK:flex hidden w-full h-full items-center justify-center'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-6 h-6 absolute'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
-                />
-              </svg>
+              <PlayIcon className='w-6 h-6 absolute' />
             </Link>
             <p className='group-hover/USUK:hidden block'>BXH USUK</p>
           </div>
@@ -126,19 +114,7 @@ const UserProfileComp = () => {
             <Link
               href={"/"}
               className='group-hover/Kpop:flex hidden w-full h-full items-center justify-center'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-6 h-6 absolute'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
-                />
-              </svg>
+              <PlayIcon className='w-6 h-6 absolute' />
             </Link>
             <p className='group-hover/Kpop:hidden block'>BXH HÀN</p>
           </div>
@@ -155,19 +131,7 @@ const UserProfileComp = () => {
             <Link
               href={"/"}
               className='group-hover/VN:flex hidden w-full h-full items-center justify-center'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-6 h-6 absolute'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z'
-                />
-              </svg>
+              <PlayIcon className='w-6 h-6 absolute' />
             </Link>
             <p className='group-hover/VN:hidden block'>BXH VN</p>
           </div>

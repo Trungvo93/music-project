@@ -3,7 +3,6 @@ import useSWR from "swr";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { urlTopViews } from "../api/allApi";
-import Image from "next/image";
 import RankComp from "../components/RankComp";
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 const Rank = () => {

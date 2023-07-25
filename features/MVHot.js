@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "@/svg/svg";
 import Link from "next/link";
 const MVHot = () => {
   return (
@@ -8,19 +9,7 @@ const MVHot = () => {
           href='/mvhot'
           className='flex text-xs items-center hover:text-red-400'>
           <p>TẤT CẢ</p>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-3 h-3'>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M8.25 4.5l7.5 7.5-7.5 7.5'
-            />
-          </svg>
+          <ArrowRightIcon className='w-3 h-3' />
         </Link>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>

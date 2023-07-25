@@ -1,5 +1,6 @@
 import RadioComp from "../components/RadioComp";
 import Link from "next/link";
+import { ArrowRightIcon } from "@/svg/svg";
 const Radio = () => {
   return (
     <div className='px-2 py-3'>
@@ -9,19 +10,7 @@ const Radio = () => {
           href='/radio'
           className='flex text-xs items-center hover:text-red-400'>
           <p>TẤT CẢ</p>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-3 h-3'>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M8.25 4.5l7.5 7.5-7.5 7.5'
-            />
-          </svg>
+          <ArrowRightIcon className='w-3 h-3' />
         </Link>
       </div>
       <div className='grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-10 px-2 py-3'>
