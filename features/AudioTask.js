@@ -463,20 +463,6 @@ const AudioTask = () => {
             <p className='w-12 shrink-0 text-sm	text-center'>
               {displayCurrentTime}
             </p>
-            {/* <Slider
-              size='small'
-              min={0}
-              max={sliderDuration}
-              value={position}
-              step={0.00000001}
-              onChange={handleChangeSlider}
-              valueLabelDisplay='off'
-              className='w-full'
-              sx={{
-                color: "#D5CD6E",
-                padding: "5px 0px",
-              }}
-            /> */}
             <Slider
               tooltip={{
                 open: false,
@@ -618,7 +604,7 @@ const AudioTask = () => {
                     </div>
                   ) : (
                     <div onClick={() => handleAddFavorite(item._id)}>
-                      <HeartOutlineIcon className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 ' />{" "}
+                      <HeartOutlineIcon className='w-6 h-6 shrink-0  cursor-pointer hover:text-white hover:scale-125 duration-300 ' />
                     </div>
                   )}
 

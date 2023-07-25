@@ -2,16 +2,7 @@
 
 import Image from "next/image";
 import { useContext, useState } from "react";
-import {
-  Tooltip,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import styles from "../css/components/ArtistTrending.module.scss";
 import { AppContext } from "../context/context";
 import AddPersonalPlaylist from "./AddPersonalPlaylist";
