@@ -12,7 +12,7 @@ import {
 
 import axios from "axios";
 import LoginComp from "./LoginComp";
-import LogoutComp from "./LogoutComp";
+import RegisterComp from "./RegisterComp";
 import { urlProfile } from "../api/allApi";
 import { ExitIcon, Person2Icon } from "@/svg/svg";
 import { Button, Modal } from "antd";
@@ -155,7 +155,7 @@ const Login = () => {
         }
         open={openDialogLogin}
         onCancel={handleCloseDialogLogin}>
-        {switchRegister ? <LogoutComp /> : <LoginComp />}
+        {switchRegister ? <RegisterComp /> : <LoginComp />}
 
         {switchRegister ? (
           <button

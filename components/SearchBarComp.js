@@ -6,6 +6,7 @@ import { AppContext } from "../context/context";
 
 import axios from "axios";
 import { urlSearch } from "@/api/allApi";
+import { CloseIcon, PlayIcon, SearchIcon } from "@/svg/svg";
 const SearchBarComp = ({ checkOutside }) => {
   const { dispatch } = useContext(AppContext);
   //Searchbar
@@ -71,15 +72,7 @@ const SearchBarComp = ({ checkOutside }) => {
       <div>
         <span className='sr-only'>Search</span>
         <span className='absolute inset-y-0 left-0 flex items-center pl-3 h-[37.6px]'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='16'
-            height='16'
-            fill='currentColor'
-            className='bi bi-search'
-            viewBox='0 0 20 20'>
-            <path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z' />
-          </svg>
+          <SearchIcon className='w-4 h-4' />
         </span>
         <input
           autoComplete='off'
@@ -96,22 +89,13 @@ const SearchBarComp = ({ checkOutside }) => {
         />
 
         <span className='absolute inset-y-0 right-0 flex items-center pr-3 h-[37.6px]'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className={`w-5 h-5 cursor-pointer ${
-              listSearch.length > 0 ? "block" : "hidden"
-            }`}
-            onClick={() => handleClear()}>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M6 18L18 6M6 6l12 12'
+          <div onClick={() => handleClear()}>
+            <CloseIcon
+              className={`w-5 h-5 cursor-pointer ${
+                listSearch.length > 0 ? "block" : "hidden"
+              }`}
             />
-          </svg>
+          </div>
         </span>
       </div>
       <div
@@ -133,19 +117,9 @@ const SearchBarComp = ({ checkOutside }) => {
                 height={40}
                 className='object-cover rounded w-auto'
               />
-
-              <svg
-                onClick={() => handleAddPlaylist(index)}
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                fill='currentColor'
-                className='w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 text-white hidden group-hover:block'>
-                <path
-                  fillRule='evenodd'
-                  d='M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z'
-                  clipRule='evenodd'
-                />
-              </svg>
+              <div onClick={() => handleAddPlaylist(index)}>
+                <PlayIcon className='w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 text-white hidden group-hover:block' />
+              </div>
             </div>
 
             <div className=''>
