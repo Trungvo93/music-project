@@ -175,7 +175,7 @@ const AudioTask = () => {
     handlePlayAudio();
   }, [currentTrack]);
   const handleCanPlay = () => {
-    setPlay(true);
+    // setPlay(true);
   };
 
   const handleLoadedData = () => {
@@ -195,6 +195,8 @@ const AudioTask = () => {
     if (isPlay || state.firstPlay) {
       handlePlayAudio();
     }
+    setPlay(true);
+    // console.log("isPlay", isPlay, "\n", "isPause", isPause);
   };
   const handlePlayAudio = () => {
     // setPlay(true);
@@ -205,7 +207,7 @@ const AudioTask = () => {
   };
   const handlePauseAudio = () => {
     setIsPause(true);
-    setPlay(false);
+    // setPlay(false);
     audioRef.current.pause();
   };
   const handlePrevious = () => {
