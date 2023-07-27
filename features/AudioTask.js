@@ -127,7 +127,7 @@ const AudioTask = () => {
 
   const audioRef = useRef();
   const [isPause, setIsPause] = useState(true);
-  const [isPlay, setPlay] = useState();
+  const [isPlay, setPlay] = useState(false);
   const [isShuffle, setShuffle] = useState(false);
   const [isRepeat, setRepeat] = useState(false);
   const [duration, setDuration] = useState();
@@ -172,9 +172,7 @@ const AudioTask = () => {
   }, [state.playList]);
 
   useEffect(() => {
-    if (isPlay === false) {
-      handlePlayAudio();
-    }
+    handlePlayAudio();
   }, [currentTrack]);
   const handleCanPlay = () => {
     setPlay(true);
@@ -199,9 +197,11 @@ const AudioTask = () => {
     }
   };
   const handlePlayAudio = () => {
-    setIsPause(false);
-    setPlay(true);
-    audioRef.current.play();
+    // setPlay(true);
+    if (isPlay) {
+      setIsPause(false);
+      audioRef.current.play();
+    }
   };
   const handlePauseAudio = () => {
     setIsPause(true);
@@ -374,7 +374,7 @@ const AudioTask = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-
+  // console.log("isPlay", isPlay, "\n", "isPause", isPause);
   if (currentTrack)
     return (
       <div className='flex justify-between px-5 audioTask'>
