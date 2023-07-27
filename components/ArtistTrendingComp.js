@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useContext, useState } from "react";
-import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+// import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import styles from "../css/components/ArtistTrending.module.scss";
 import { AppContext } from "../context/context";
 import AddPersonalPlaylist from "./AddPersonalPlaylist";
@@ -14,9 +14,10 @@ import {
   MVIcon,
   DetailIcon,
   HeartOutlineIcon,
+  CloseIcon,
 } from "@/svg/svg";
 //AntDesign
-import { Dropdown, Space } from "antd";
+import { Dropdown, Space, Modal, Button } from "antd";
 
 const ArtistTrendingComp = ({
   playlist,
@@ -150,7 +151,7 @@ const ArtistTrendingComp = ({
       <p className='capitalize line-clamp-1 mt-3 text-xs text-gray-500'>
         {title2}
       </p>
-      <Dialog
+      {/* <Dialog
         className=''
         open={open}
         onClose={handleClose}
@@ -182,7 +183,29 @@ const ArtistTrendingComp = ({
         <DialogContent className='mt-3 configScrollbar'>
           <AddPersonalPlaylist listMusic={playlist} />
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
+
+      <Modal
+        closeIcon={false}
+        open={open}
+        onCancel={handleClose}
+        title={
+          <div className='  text-blue-700 border-b-2 border-stone-100'>
+            <div className='flex justify-between items-center'>
+              <p>Thêm vào Playlist</p>
+              <Button
+                shape='circle'
+                type='text'
+                onClick={() => {
+                  handleClose();
+                }}
+                icon={<CloseIcon className='w-5 h-5' />}></Button>
+            </div>
+          </div>
+        }
+        footer={null}>
+        <AddPersonalPlaylist listMusic={playlist} />
+      </Modal>
     </div>
   );
 };
