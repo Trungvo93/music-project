@@ -1,6 +1,7 @@
 import { AppContext } from "../context/context";
 import { useContext } from "react";
 import Image from "next/image";
+import { PlayIcon } from "@/svg/svg";
 const SlideBannerComp = ({ dataList, srcBanner, altBanner }) => {
   const { state, dispatch } = useContext(AppContext);
 
@@ -36,25 +37,9 @@ const SlideBannerComp = ({ dataList, srcBanner, altBanner }) => {
           className='duration-1000 object-cover w-full h-auto'
         />
         <div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 hidden z-30 text-white gap-8 justify-center items-center group-hover:block '>
-          <svg
-            onClick={() => handleAddPlaylist()}
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-16 h-16 hover:text-yellow-200	'>
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-            />
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z'
-            />
-          </svg>
+          <div onClick={() => handleAddPlaylist()}>
+            <PlayIcon className='w-16 h-16 hover:text-yellow-200	' />
+          </div>
         </div>
       </div>
     </div>

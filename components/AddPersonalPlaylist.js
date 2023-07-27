@@ -2,14 +2,9 @@
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/context";
 import Link from "next/link";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+
+import { Button, Modal } from "antd";
+
 import {
   urlDeletePlaylist,
   urlGetPlaylist,
@@ -194,7 +189,7 @@ const AddPersonalPlaylist = ({ listMusic }) => {
         Tạo mới Playlist
       </button>
       {/* Create dialog */}
-      <Dialog
+      {/* <Dialog
         disableRestoreFocus
         open={openCreate}
         onClose={handleCloseCreateDialog}
@@ -231,7 +226,44 @@ const AddPersonalPlaylist = ({ listMusic }) => {
             <span>Tạo mới</span>
           </button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
+
+      <Modal
+        open={openCreate}
+        onCancel={handleCloseCreateDialog}
+        title={
+          <div className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
+            <span>Tên playlist mới</span>
+          </div>
+        }
+        footer={
+          <div className='flex items-center justify-end'>
+            <Button key='back' type='dashed' onClick={handleCloseCreateDialog}>
+              Hủy
+            </Button>
+            <Button
+              type='primary'
+              danger
+              key='confirm'
+              onClick={() => handleCreatePlaylist(listMusic)}
+              autoFocus
+              className='inline-flex justify-center items-center'
+              loading={isFetchingNewList}>
+              <span>Tạo mới</span>
+            </Button>
+          </div>
+        }>
+        <input
+          autoFocus
+          placeholder='Nhập tên playlist'
+          className={`placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm mt-3`}
+          value={newNamelist}
+          onChange={handleChangeNamelist}
+        />
+        <p className='mt-3 text-xs text-red-500'>
+          {newNamelist ? "" : "Tên playlist không để trống"}
+        </p>
+      </Modal>
       <div className=''>
         {state.personPlaylist.map((itemPersonPlaylist, index) => (
           <div
@@ -278,7 +310,7 @@ const AddPersonalPlaylist = ({ listMusic }) => {
                 />
               </svg>
               {/* Edit name dialog */}
-              <Dialog
+              {/* <Dialog
                 disableRestoreFocus
                 open={openEditName}
                 onClose={handleClickCloseEditName}
@@ -312,8 +344,43 @@ const AddPersonalPlaylist = ({ listMusic }) => {
                     <span>Sửa</span>
                   </button>
                 </DialogActions>
-              </Dialog>
+              </Dialog> */}
 
+              <Modal
+                open={openEditName}
+                onCancel={handleClickCloseEditName}
+                title={
+                  <div className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
+                    <span>Tên playlist mới</span>
+                  </div>
+                }
+                footer={
+                  <div className='flex items-center justify-end'>
+                    <Button
+                      key='back'
+                      type='dashed'
+                      onClick={handleClickCloseEditName}>
+                      Hủy
+                    </Button>
+                    <Button
+                      type='primary'
+                      key='confirm'
+                      onClick={() => handleChangeNamePlaylist(listMusic)}
+                      autoFocus
+                      className='inline-flex justify-center items-center bg-blue-400'
+                      loading={isFetchingEditName}>
+                      <span>Sửa</span>
+                    </Button>
+                  </div>
+                }>
+                <input
+                  autoFocus
+                  placeholder='Nhập tên mới'
+                  className={`placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm mt-3`}
+                  value={newEditName}
+                  onChange={handleChangeNewEditName}
+                />
+              </Modal>
               {/* Action delete playlist */}
               <div>
                 <button
@@ -336,7 +403,7 @@ const AddPersonalPlaylist = ({ listMusic }) => {
                 </button>
 
                 {/* Delete dialog */}
-                <Dialog
+                {/* <Dialog
                   open={openDeleteDialog}
                   onClose={handleCloseDeleteDialog}
                   aria-labelledby='alert-dialog-title'
@@ -362,7 +429,38 @@ const AddPersonalPlaylist = ({ listMusic }) => {
                       <span>Có</span>
                     </Button>
                   </DialogActions>
-                </Dialog>
+                </Dialog> */}
+
+                <Modal
+                  open={openDeleteDialog}
+                  onCancel={handleCloseDeleteDialog}
+                  title={
+                    <div className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
+                      <span>Xác nhận</span>
+                    </div>
+                  }
+                  footer={
+                    <div className='flex items-center justify-end'>
+                      <Button
+                        key='back'
+                        type='dashed'
+                        onClick={handleCloseDeleteDialog}>
+                        Không
+                      </Button>
+                      <Button
+                        type='primary'
+                        danger
+                        key='confirm'
+                        onClick={() => handleDeleteList(itemDelete._id)}
+                        autoFocus
+                        className='inline-flex justify-center items-center '
+                        loading={isFetchingDeletelist}>
+                        <span>Có</span>
+                      </Button>
+                    </div>
+                  }>
+                  <span>Bạn chắc chắn muốn xóa playlist này?!</span>
+                </Modal>
               </div>
             </div>
           </div>

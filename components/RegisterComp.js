@@ -5,7 +5,6 @@ import axios from "axios";
 import { AppContext } from "../context/context";
 import { AtSymbolIcon, EyeIcon, PersonIcon, SlashEyeIcon } from "@/svg/svg";
 import { Button } from "antd";
-import { TroubleshootTwoTone } from "@mui/icons-material";
 const RegisterComp = () => {
   const [userRegister, setUserRegister] = useState({
     username: "",
