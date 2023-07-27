@@ -72,18 +72,22 @@ const DropPlaylist = () => {
   };
 
   const handlePlay = async (idPlaylist) => {
-    const accessToken = localStorage.getItem("accessKey");
-    const res = await axios.get(
-      `${urlGetPlaylist}?_id=${idPlaylist}`,
+    try {
+      const accessToken = localStorage.getItem("accessKey");
+      const res = await axios.get(
+        `${urlGetPlaylist}?_id=${idPlaylist}`,
 
-      { headers: { Authorization: `Bearer ${accessToken}` } }
-    );
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
 
-    const playlist = [];
-    res.data.data.array_music.forEach((item) => {
-      playlist.push(item.music);
-    });
-    handleAddPlaylist(playlist);
+      const playlist = [];
+      res.data.data.array_music.forEach((item) => {
+        playlist.push(item.music);
+      });
+      handleAddPlaylist(playlist);
+    } catch (error) {
+      console.log("DropPlaylist: ", error);
+    }
   };
 
   const handleDeleteList = async (idPlaylist) => {
