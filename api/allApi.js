@@ -33,3 +33,8 @@ export const urlAddItemPlaylist = `${URL}/list-music/add-list-music`;
 export const urlFavoriteMusic = `${URL}/favorite/get-authorization-token`;
 export const urlAddFavorite = `${URL}/favorite/create`;
 export const urlDeleteFavorite = `${URL}/favorite/create`;
+
+//Recently Songs
+
+export const urlAddRecentlySong = `${URL}/play-history/create`;
+export const urlGetRecentlySongs = `${URL}/play-history/get-by-token`;

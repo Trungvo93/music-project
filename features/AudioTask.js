@@ -6,7 +6,11 @@ import { AppContext } from "../context/context";
 import styles from "../css/features/AudioTask.module.scss";
 import Image from "next/image";
 import axios from "axios";
-import { urlFavoriteMusic, urlAddFavorite } from "@/api/allApi";
+import {
+  urlFavoriteMusic,
+  urlAddFavorite,
+  urlAddRecentlySong,
+} from "@/api/allApi";
 
 //Ant Design
 import {
@@ -172,7 +176,17 @@ const AudioTask = () => {
   }, [state.playList]);
 
   useEffect(() => {
+    const addRecentlySong = async (idMusic) => {
+      const res = await axios.post(
+        urlAddRecentlySong,
+        { idMusic: idMusic },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+    };
     handlePlayAudio();
+    if (accessToken) {
+      addRecentlySong(currentTrack._id);
+    }
   }, [currentTrack]);
   const handleCanPlay = () => {
     // setPlay(true);
@@ -196,7 +210,6 @@ const AudioTask = () => {
       handlePlayAudio();
     }
     setPlay(true);
-    // console.log("isPlay", isPlay, "\n", "isPause", isPause);
   };
   const handlePlayAudio = () => {
     // setPlay(true);
@@ -376,7 +389,6 @@ const AudioTask = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  // console.log("isPlay", isPlay, "\n", "isPause", isPause);
   if (currentTrack)
     return (
       <div className='flex justify-between px-5 audioTask'>
@@ -384,7 +396,12 @@ const AudioTask = () => {
           autoPlay
           ref={audioRef}
           src={currentTrack ? currentTrack.src_music : ""}
-          onTimeUpdate={handleSlider}
+          onTimeUpdate={() => {
+            if (!audioRef.current.paused) {
+              setIsPause(false);
+            }
+            handleSlider();
+          }}
           onEnded={() => handleNext()}
           onLoadedData={handleLoadedData}
           onCanPlay={handleCanPlay}

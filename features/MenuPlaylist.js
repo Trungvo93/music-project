@@ -39,7 +39,7 @@ const MenuPlaylist = () => {
       </div>
       {/* Recently */}
       <Link
-        href='/#'
+        href='/recently'
         className={`flex items-center justify-center lg:justify-normal gap-2 py-3 px-5 font-medium  hover:cursor-pointer hover:text-white  ${
           pathname == "#" ? `bg-black/10 text-white` : ``
         }`}>
