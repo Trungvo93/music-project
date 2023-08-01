@@ -47,9 +47,8 @@ const SongRecently = async () => {
     dispatch({ type: "FIRSTPLAY" });
   };
 
-  console.log(dataRecentlySongs);
   return (
-    <div>
+    <div className='m-3'>
       <div className=''>
         <h1>Phát gần đây</h1>
       </div>
@@ -59,13 +58,13 @@ const SongRecently = async () => {
               <div key={index} className=' '>
                 <div className='relative  overflow-hidden cursor-pointer	rounded-lg drop-shadow-md group'>
                   <div className='absolute w-full h-full  bg-black opacity-30 -z-10 group-hover:z-10'></div>
-                  <div className='h-auto w-full'>
+                  <div className='h-[150px] md:h-[250px] w-full overflow-hidden relative'>
                     <Image
                       src={element.music.image_music}
                       alt={element.music.slug_name_music}
-                      width={500}
-                      height={0}
-                      className='duration-700 object-cover group-hover:scale-125 '
+                      fill
+                      size={"500px"}
+                      className='duration-700 object-cover group-hover:scale-125 w-full h-full '
                     />
                   </div>
                   <div

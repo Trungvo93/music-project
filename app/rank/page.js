@@ -1,5 +1,11 @@
+import RankPage from "@/features/RankPage";
+
 const page = async () => {
-  return <div>rank</div>;
+  return (
+    <div>
+      <RankPage />
+    </div>
+  );
 };
 
 export default page;
