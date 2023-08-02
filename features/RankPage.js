@@ -1,10 +1,14 @@
 "use client";
 import { Tabs } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { urlTopViews } from "../api/allApi";
 import useSWR from "swr";
 import axios from "axios";
 import SkeletonRankPageComp from "@/components/SkeletonRankPageComp";
+import TopRankComp from "@/components/TopRankComp";
+import { PlayIcon } from "@/svg/svg";
+import { AppContext } from "../context/context";
+
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 const RankPage = () => {
   const { data: data, error: error } = useSWR(urlTopViews, fetcher);
@@ -12,6 +16,8 @@ const RankPage = () => {
   const [topRankViet, setTopRankViet] = useState();
   const [topRankHan, setTopRankHan] = useState();
   const [topRankUSUK, setTopRankUSUK] = useState();
+  const { state, dispatch } = useContext(AppContext);
+
   useEffect(() => {
     if (data) {
       const listViet = [];
@@ -53,7 +59,11 @@ const RankPage = () => {
       ),
       children: (
         <div>
-          <SkeletonRankPageComp />
+          {topRankViet ? (
+            <TopRankComp listRank={topRankViet} />
+          ) : (
+            <SkeletonRankPageComp />
+          )}
         </div>
       ),
     },
@@ -64,7 +74,15 @@ const RankPage = () => {
           US-UK
         </div>
       ),
-      children: `Content of Tab Pane 2`,
+      children: (
+        <div>
+          {topRankUSUK ? (
+            <TopRankComp listRank={topRankUSUK} />
+          ) : (
+            <SkeletonRankPageComp />
+          )}
+        </div>
+      ),
     },
     {
       key: "3",
@@ -73,17 +91,56 @@ const RankPage = () => {
           K-POP
         </div>
       ),
-      children: `Content of Tab Pane 3`,
+      children: (
+        <div>
+          {topRankHan ? (
+            <TopRankComp listRank={topRankHan} />
+          ) : (
+            <SkeletonRankPageComp />
+          )}
+        </div>
+      ),
     },
   ];
+
+  const handleAddPlaylist = () => {
+    if (data) {
+      let listData = [];
+      if (keyActive == 1) {
+        listData = [...topRankViet];
+      } else if (keyActive == 2) {
+        listData = [...topRankUSUK];
+      } else if (keyActive == 3) {
+        listData = [...topRankHan];
+      }
+      const list = listData.map((item, index) => {
+        if (index === 0) {
+          item.isActive = true;
+        } else {
+          item.isActive = false;
+        }
+        return item;
+      });
+
+      const tmp = JSON.stringify(list).toString();
+      localStorage.setItem("playList", tmp);
+
+      dispatch({ type: "ADDPLAYLIST", payload: list });
+      dispatch({ type: "FIRSTPLAY" });
+    }
+  };
   return (
     <div className='m-3'>
-      <Tabs
-        defaultActiveKey='1'
-        items={items}
-        onChange={onChange}
-        type='card'
-      />
+      <div className='my-5 flex items-center gap-3'>
+        <p className='text-2xl font-semibold'>Bảng Xếp Hạng</p>
+        <div
+          onClick={() => {
+            handleAddPlaylist();
+          }}>
+          <PlayIcon className='w-8 h-8 hover:text-orange-400 cursor-pointer' />
+        </div>
+      </div>
+      <Tabs defaultActiveKey='1' items={items} onChange={onChange} />
     </div>
   );
 };

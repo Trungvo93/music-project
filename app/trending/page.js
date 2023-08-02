@@ -1,9 +1,9 @@
-import { urlNewMusic } from "../../api/allApi";
+import { urlTrending } from "../../api/allApi";
 import axios from "axios";
-import NewMusicPageComp from "@/components/NewMusicPageComp";
+import TrendingMusicPageComp from "@/components/TrendingMusicPageComp";
 const getData = async () => {
   try {
-    const res = await axios.get(urlNewMusic);
+    const res = await axios.get(urlTrending);
     return res.data.data;
   } catch (error) {
     console.log(error);
@@ -11,9 +11,10 @@ const getData = async () => {
 };
 const page = async () => {
   const data = await getData();
+
   return (
     <div>
-      <NewMusicPageComp listMusic={data} />
+      <TrendingMusicPageComp listMusic={data} />
     </div>
   );
 };
