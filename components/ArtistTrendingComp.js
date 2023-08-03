@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useContext, useState } from "react";
-// import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import styles from "../css/components/ArtistTrending.module.scss";
 import { AppContext } from "../context/context";
 import AddPersonalPlaylist from "./AddPersonalPlaylist";
@@ -151,39 +150,6 @@ const ArtistTrendingComp = ({
       <p className='capitalize line-clamp-1 mt-3 text-xs text-gray-500'>
         {title2}
       </p>
-      {/* <Dialog
-        className=''
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'>
-        <DialogTitle className='md:w-[500px] w-auto  text-blue-700 border-b-2 border-stone-100'>
-          <div className='flex justify-between items-center'>
-            <p>Thêm vào Playlist</p>
-            <IconButton
-              onClick={() => {
-                handleClose();
-              }}>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-6 h-6'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M6 18L18 6M6 6l12 12'
-                />
-              </svg>
-            </IconButton>
-          </div>
-        </DialogTitle>
-        <DialogContent className='mt-3 configScrollbar'>
-          <AddPersonalPlaylist listMusic={playlist} />
-        </DialogContent>
-      </Dialog> */}
 
       <Modal
         closeIcon={false}

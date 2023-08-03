@@ -26,10 +26,12 @@ const fetchWithToken = async (urlGetAllPlaylist, accessToken) => {
 const DropPlaylist = () => {
   const { state, dispatch } = useContext(AppContext);
   const [accessToken, setAccessToken] = useState();
-  const { data: dataUserPlaylist, error: errorUserPlaylist } = useSWR(
-    [urlGetAllPlaylist, accessToken],
-    ([url, token]) => fetchWithToken(url, token),
-    { refreshInterval: 1000 }
+  const {
+    data: dataUserPlaylist,
+    error: errorUserPlaylist,
+    mutate,
+  } = useSWR([urlGetAllPlaylist, accessToken], ([url, token]) =>
+    fetchWithToken(url, token)
   );
   useEffect(() => {
     // Perform localStorage action
@@ -96,6 +98,7 @@ const DropPlaylist = () => {
     const res = await axios.delete(`${urlDeletePlaylist}?_id=${idPlaylist}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
+    mutate();
     setIsFetchingDeletelist(false);
     handleCloseDeleteDialog();
   };

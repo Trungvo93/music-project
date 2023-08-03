@@ -42,7 +42,6 @@ const MVhotPage = ({ listTrending }) => {
       };
     }
   });
-  console.log(windowWidth);
   return (
     <div className='m-6'>
       <div>
