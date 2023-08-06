@@ -109,9 +109,7 @@ const DropPlaylist = () => {
             <div
               key={index}
               className='flex justify-between items-center hover:bg-slate-600/50 hover:text-white p-2 rounded-md'>
-              <Link href='#' className='hover:text-yellow-400'>
-                {item.name_list}
-              </Link>
+              <div className='hover:text-yellow-400'>{item.name_list}</div>
               <div className='flex flex-nowrap gap-2'>
                 {/* Action play */}
                 <div
