@@ -2,12 +2,13 @@ import "./globals.css";
 import { AppContextProvider } from "../context/context";
 import { Work_Sans } from "next/font/google";
 import Image from "next/image";
-import MenuInfor from "@/features/MenuInfor";
-import MenuMusic from "@/features/MenuMusic";
+import MenuInfor from "@/features/leftSide/menuInfor/MenuInfor";
+import MenuMusic from "@/features/leftSide/menuMusic/MenuMusic";
 import Link from "next/link";
-import MenuPlaylist from "@/features/MenuPlaylist";
-import AudioTask from "@/features/AudioTask";
-import HeadTop from "@/features/HeadTop";
+import MenuPlaylist from "@/features/leftSide/menuPlaylist/MenuPlaylist";
+import AudioTask from "@/features/audioTask/AudioTask";
+import HeadTop from "@/features/header/HeadTop";
+import { GemIcon } from "@/svg/svg";
 const inter = Work_Sans({ subsets: ["latin"] });
 
 export const metadata = {
@@ -20,14 +21,8 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body className={inter.className} suppressHydrationWarning={true}>
         <AppContextProvider>
-          <div
-            //   className={`grid grid-cols-12
-            //     sectionMain
-            //  `}
-            className={`flex sectionMain `}>
-            <nav
-              // className='col-span-2 leftSide  pt-3 overflow-y-scroll	'
-              className='leftSide  pt-3 overflow-y-scroll shrink-0 basis-20  lg:basis-72 '>
+          <div className={`flex sectionMain `}>
+            <nav className='leftSide  pt-3 overflow-y-scroll shrink-0 basis-20  lg:basis-72 '>
               {/* Logo web */}
               <div className='flex justify-center md:justify-normal md:m-2 md:ms-5'>
                 <Link href={"/"}>
@@ -51,15 +46,7 @@ export default function RootLayout({ children }) {
                   Nghe nhạc không quảng cáo cùng kho nhạc VIP
                 </p>
                 <div className='flex justify-center items-center '>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    width='16'
-                    height='16'
-                    fill='currentColor'
-                    className='bi bi-gem block lg:hidden text-white cursor-pointer shrink-0'
-                    viewBox='0 0 16 16'>
-                    <path d='M3.1.7a.5.5 0 0 1 .4-.2h9a.5.5 0 0 1 .4.2l2.976 3.974c.149.185.156.45.01.644L8.4 15.3a.5.5 0 0 1-.8 0L.1 5.3a.5.5 0 0 1 0-.6l3-4zm11.386 3.785-1.806-2.41-.776 2.413 2.582-.003zm-3.633.004.961-2.989H4.186l.963 2.995 5.704-.006zM5.47 5.495 8 13.366l2.532-7.876-5.062.005zm-1.371-.999-.78-2.422-1.818 2.425 2.598-.003zM1.499 5.5l5.113 6.817-2.192-6.82L1.5 5.5zm7.889 6.817 5.123-6.83-2.928.002-2.195 6.828z' />
-                  </svg>
+                  <GemIcon className='bi bi-gem block lg:hidden text-white cursor-pointer shrink-0' />
                 </div>
                 <div className='text-center lg:my-3'>
                   <Link
@@ -74,9 +61,7 @@ export default function RootLayout({ children }) {
               <MenuPlaylist />
             </nav>
 
-            <main
-              // className='col-span-10 '
-              className='w-full'>
+            <main className='w-full'>
               {/* Header */}
               <nav>
                 <HeadTop />

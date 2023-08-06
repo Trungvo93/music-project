@@ -1,4 +1,4 @@
-import SongRecently from "@/features/SongRecently";
+import SongRecently from "@/features/leftSide/menuPlaylist/dropPlaylist/recently/SongRecently";
 
 const page = () => {
   return (

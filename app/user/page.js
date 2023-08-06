@@ -1,4 +1,4 @@
-import UserProfile from "@/features/UserProfile";
+import UserProfile from "@/features/leftSide/menuInfor/userProfile/UserProfile";
 
 const page = () => {
   return (

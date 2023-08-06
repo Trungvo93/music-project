@@ -1,4 +1,4 @@
-import RankPage from "@/features/RankPage";
+import RankPage from "@/features/leftSide/menuInfor/rank/RankPage";
 
 const page = async () => {
   return (

@@ -1,7 +1,6 @@
-import MVhotPage from "@/features/MVhotPage";
-import { async } from "@firebase/util";
+import MVhotPage from "@/features/leftSide/menuMusic/mvHot/MVhotPage";
 import axios from "axios";
-import { urlTrending } from "../../api/allApi";
+import { urlTrending } from "@/api/allApi";
 const getData = async () => {
   try {
     const res = await axios.get(urlTrending);

@@ -1,6 +1,6 @@
-import { urlTrending } from "../../api/allApi";
+import { urlTrending } from "@/api/allApi";
 import axios from "axios";
-import TrendingMusicPageComp from "@/components/TrendingMusicPageComp";
+import TrendingMusicPageComp from "@/features/leftSide/menuMusic/trending/TrendingMusicPageComp";
 const getData = async () => {
   try {
     const res = await axios.get(urlTrending);

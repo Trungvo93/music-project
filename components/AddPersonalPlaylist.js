@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useState, useEffect } from "react";
-import { AppContext } from "../context/context";
+import { AppContext } from "@/context/context";
 import Link from "next/link";
 import useSWR from "swr";
 

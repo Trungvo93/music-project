@@ -1,9 +1,18 @@
-import SkeletonRadioPageComp from "@/features/leftSide/menuInfor/radio/SkeletonRadioPageComp";
 import RadioComp from "@/features/radioMain/RadioComp";
-
-const page = () => {
+import Link from "next/link";
+import { ArrowRightIcon } from "@/svg/svg";
+const Radio = () => {
   return (
-    <div className='m-6'>
+    <div className='px-2 py-3'>
+      <div className='py-3 flex justify-between'>
+        <p className='font-semibold text-lg'>Radio</p>
+        <Link
+          href='/radio'
+          className='flex text-xs items-center hover:text-red-400'>
+          <p>TẤT CẢ</p>
+          <ArrowRightIcon className='w-3 h-3' />
+        </Link>
+      </div>
       <div className='grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-10 px-2 py-3'>
         <RadioComp
           srcBackground='/assets/radio/xe-xone.webp'
@@ -75,9 +84,8 @@ const page = () => {
           />
         </div>
       </div>
-      <SkeletonRadioPageComp />
     </div>
   );
 };
 
-export default page;
+export default Radio;

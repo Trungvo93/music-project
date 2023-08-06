@@ -1,6 +1,6 @@
-import { urlNewMusic } from "../../api/allApi";
+import { urlNewMusic } from "@/api/allApi";
 import axios from "axios";
-import NewMusicPageComp from "@/components/NewMusicPageComp";
+import NewMusicPageComp from "@/features/leftSide/menuMusic/newMusic/NewMusicPageComp";
 const getData = async () => {
   try {
     const res = await axios.get(urlNewMusic);
